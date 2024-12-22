@@ -12,6 +12,11 @@ import CreateFoodDetail from './screens/food/CreateFoodDetail';
 import RequestDetail from './screens/request/RequestDetail';
 import CreateRequestDetail from './screens/request/CreateRequestDetail';
 import EditRequestDetail from './screens/request/EditRequestDetail';
+import EditProfile from './screens/profile/EditProfile';
+import DonationDetail from './screens/history/DonationDetails';
+import RatingScreen from './screens/history/RatingScreen';
+import RequestedDetail from './screens/history/RequestDetails';
+import CompleteDetails from './screens/food/CompleteDetails';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +56,11 @@ const App = () => {
             options={{ headerShown: false }} 
           />
           <Stack.Screen 
+            name="CompleteDetails" 
+            component={CompleteDetails} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
             name="CreateFoodDetail" 
             component={CreateFoodDetail} 
             options={{ headerShown: false }} 
@@ -66,8 +76,28 @@ const App = () => {
             options={{ headerShown: false }} 
           />
           <Stack.Screen 
+            name="DonationDetail" 
+            component={DonationDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="RequestedDetail" 
+            component={RequestedDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="RatingScreen" 
+            component={RatingScreen} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
             name="EditRequestDetail" 
             component={EditRequestDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="EditProfile" 
+            component={EditProfile} 
             options={{ headerShown: false }} 
           />
           <Stack.Screen

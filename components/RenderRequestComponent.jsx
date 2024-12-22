@@ -17,7 +17,11 @@ const renderRequestComponent = ({ navigation, ...props }) => (
           </Text>
           <Text className="text-sm font-semibold text-gray-600">{props.category}</Text>
           <Text className="text-sm text-gray-500">
-            Post Date: {new Date(props.requestdate).toLocaleDateString()}
+          Post Date: {new Intl.DateTimeFormat('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }).format(new Date(props.requestdate))}, {new Date(props.requestdate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
           </Text>
           <Text className="text-sm text-gray-500"
             numberOfLines={1}

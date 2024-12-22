@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Text, TextInput, View, Image, FlatList, RefreshControl, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SearchCustom from '../../components/SearchCustom';
@@ -11,6 +11,7 @@ import { fetchUserLastName, fetchFoodList, fetchRequestList, fetchFilteredFoodLi
 import RenderFoodComponent from '../../components/RenderFoodComponent';
 import RenderRequestComponent from '../../components/RenderRequestComponent';
 import { Picker } from '@react-native-picker/picker';
+import { useFocusEffect } from '@react-navigation/native'; 
 
 const HomeScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -118,11 +119,13 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    fetchInitialData();
-    prefetchFoodData();
-    prefetchRequestData();
-  }, []);
+  useFocusEffect(
+     useCallback(() => {
+      fetchInitialData(); // Fetch data every time the screen is focused
+      prefetchFoodData();
+      prefetchRequestData();
+      }, [])
+ );
   
   const onRefresh = async () => {
     setRefreshing(true);

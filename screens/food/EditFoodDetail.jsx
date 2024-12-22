@@ -32,12 +32,24 @@ const EditFoodScreen = ({ route, navigation }) => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setPhotoUrl(result.assets[0].uri);
+    // Destructure the first asset if available, otherwise use a default image
+    const [firstAsset] = result?.assets || [];
+      
+    if (firstAsset && firstAsset.uri) {
+      // Ensure the URI is a string
+      setPhotoUrl(String(firstAsset.uri)) // Convert URI to string if necessary
+    }
+    else {
+      setPhotoUrl(photoUrl);
     }
   };
 
   const handleUpdate = async () => {
+    if (!foodName || !category || !quantity || !address || !district || !description || !expiryDate || !photoUrl) {
+      Alert.alert("Edit Food Details Error", "Please ensure all fields are filled in before submitting.");
+      return;
+    }
+
     try {
       setSubmitting(true);
 

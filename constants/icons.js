@@ -11,8 +11,13 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
-import history from "../assets/icons/history.png"
-import filter from "../assets/icons/filter.png"
+import history from "../assets/icons/history.png";
+import filter from "../assets/icons/filter.png";
+import invite from "../assets/icons/invite.png";
+import defaultUserIcon from "../assets/icons/defaultUserIcon.png";
+import donate from "../assets/icons/donate.png";
+import receive from "../assets/icons/receive.png";
+import star from "../assets/icons/star.png";
 
 export default {
   play,
@@ -21,12 +26,17 @@ export default {
   filter,
   plus,
   profile, //used
+  invite, //used
   leftArrow,
   menu,
   search,
   upload,
   rightArrow,
-  logout,
+  donate, //used
+  receive, //used
+  defaultUserIcon, //used
+  logout, //used
+  star, //used
   eyeHide,
   eye,
   history,

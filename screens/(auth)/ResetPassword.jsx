@@ -41,6 +41,26 @@ const ResetPassword = ({ navigation }) => {
   };
 
   const resetPassword = async () => {
+
+    const userPassword = await supabase
+      .from('users')
+      .select('password')
+      .eq('email', email)
+      .single();
+
+      console.log(userPassword.data.password);
+  
+      const currentPassword = userPassword.data.password; // Plain-text password from the database
+      console.log(currentPassword);
+
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: currentPassword,
+    })
+    if (error) {
+      Alert.alert("Error", "There was an issue with fetching.");
+    }
+
     if (!newPassword || !confirmPassword) {
       Alert.alert("Input Error", "Please enter and confirm your new password.");
       return;
@@ -55,6 +75,15 @@ const ResetPassword = ({ navigation }) => {
         email: email,
         password: newPassword,
       });
+
+      const { data, updateError } = await supabase
+      .from('users')
+      .update({
+          password: newPassword,
+        })
+      .eq('email', email)
+      if (updateError) {throw updateError;}
+
       if (!error) {
         Alert.alert("Success", "Password updated successfully!");
         navigation.navigate('SignIn'); // Redirect to sign-in after success

@@ -11,13 +11,15 @@ const RequestDetail = ({ route }) => {
   const navigation = useNavigation();
 
   // State for additional data
+  const [requestEmail, setRequestEmail] = useState('');
   const [requestFirstName, setRequestFirstName] = useState('');
   const [requestLastName, setRequestLastName] = useState('');
   const [requestPhone, setRequestPhone] = useState('');
   const [requestPhoto, setRequestPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  
+  const [type, setType] = useState('request');
+
   // Fetch request details
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -32,19 +34,20 @@ const RequestDetail = ({ route }) => {
           .select('requestemail')
           .eq('requestid', requestItem.requestid)
           .single();
-  
+        
         if (requestError) throw requestError;
-  
+
         const requestEmail = requestData?.requestemail;
   
         const { data: userData, error: userError } = await supabase
           .from('users')
-          .select('phonenumber, firstname, lastname, photo_url')
+          .select('email, phonenumber, firstname, lastname, photo_url')
           .eq('email', requestEmail)
           .single();
   
         if (userError) throw userError;
         // console.log('request Data:', userData);
+        setRequestEmail(userData.email);
         setRequestFirstName(userData.firstname);
         setRequestLastName(userData.lastname);
         setRequestPhone(userData.phonenumber);
@@ -258,6 +261,18 @@ const RequestDetail = ({ route }) => {
                 );
               }}
               containerStyles="m-2 bg-[#8B0000]"
+              isLoading={submitting}
+            />
+
+            {/* Complete Food Button */}
+            <ButtonCustom
+              title={submitting ? 'Redirecting...' : 'Complete Request'}
+              handlePress={() => {
+                setSubmitting(true);
+                navigation.navigate('CompleteDetails', { requestItem, requestEmail, type });
+                setSubmitting(false);
+              }}
+              containerStyles="m-2 mt-1 bg-[#2FBE2F]"
               isLoading={submitting}
             />
           </View>

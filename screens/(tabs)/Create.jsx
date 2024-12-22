@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, FlatList, TouchableOpacity, Image, Image as RNImage, RefreshControl, SafeAreaView } from 'react-native';
 import icons from '../../constants/icons';
 import EmptyCustom from '../../components/EmptyCustom';
 import RenderFoodComponent from '../../components/RenderFoodComponent';
 import RenderRequestComponent from '../../components/RenderRequestComponent';
 import { fetchDonatedFoodList, fetchRequestedFoodList } from '../supabaseAPI/api';
+import { useFocusEffect } from '@react-navigation/native'; 
 
 const Create = ({ navigation }) => {
   const [userFoods, setUserFoods] = useState([]);
@@ -28,7 +29,8 @@ const Create = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
     (async () => {
       try {
         const foods = await fetchDonatedFoodList(); // in api.jsx file
@@ -41,7 +43,8 @@ const Create = ({ navigation }) => {
         setLoading(false);
       }
     })();
-  }, []);
+    }, [])
+  );
 
   return (
     <SafeAreaView className="bg-[#50C878] h-full">
@@ -148,7 +151,7 @@ const Create = ({ navigation }) => {
                 title="No Requests Found"
                 description="You haven't requested any food yet."
                 handlePress={() => navigation.navigate('CreateRequestDetail')}
-                buttonTitle="Post New Request"
+                buttonTitle="Create New Request"
               />
             )}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

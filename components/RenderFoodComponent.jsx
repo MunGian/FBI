@@ -17,7 +17,16 @@ const renderFoodComponent = ({ navigation, ...props }) => (
           </Text>
           <Text className="text-sm font-semibold text-gray-600">{props.category}</Text>
           <Text className="text-sm text-gray-500">
-            Expiry: {new Date(props.expirydate).toLocaleDateString()}
+            Expiry Date: 
+            {props.expirydate ? (
+              new Intl.DateTimeFormat('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              }).format(new Date(props.expirydate))
+            ) : (
+              'N/A'
+            )}
           </Text>
           <Text className="text-sm text-gray-500"
             numberOfLines={1}

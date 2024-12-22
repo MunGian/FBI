@@ -38,7 +38,7 @@ const SignUp = ({ navigation }) => {
         lastname: form.lastName,
         phonenumber: form.phoneNumber,
         email: form.email,
-        // password: form.password,
+        password: form.password,
         photo_url: null,
       },
     ]);
@@ -88,6 +88,20 @@ const SignUp = ({ navigation }) => {
         return;
       } else if (usernameCheckData.length > 0) {
         Alert.alert("Registration Error", "Username is already taken.");
+        return;
+      }
+
+      // Check if the username already exists
+      const { data: phoneCheckData, error: phoneCheckError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('phonenumber', form.phoneNumber);
+
+      if (phoneCheckError) {
+        Alert.alert("Error", phoneCheckError.message);
+        return;
+      } else if (phoneCheckData.length > 0) {
+        Alert.alert("Registration Error", "Phone number is existed.");
         return;
       }
 

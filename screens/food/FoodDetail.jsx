@@ -11,12 +11,14 @@ const FoodDetailScreen = ({ route }) => {
   const navigation = useNavigation();
 
   // State for additional data
+  const [donorEmail, setDonorEmail] = useState('');
   const [donorFirstName, setDonorFirstName] = useState('');
   const [donorLastName, setDonorLastName] = useState('');
   const [donorPhone, setDonorPhone] = useState('');
   const [donorPhoto, setPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const type = 'donor';
   
   // Fetch donor details
   useEffect(() => {
@@ -39,12 +41,13 @@ const FoodDetailScreen = ({ route }) => {
   
         const { data: userData, error: userError } = await supabase
           .from('users')
-          .select('phonenumber, firstname, lastname, photo_url')
+          .select('email, phonenumber, firstname, lastname, photo_url')
           .eq('email', donorEmail)
           .single();
   
         if (userError) throw userError;
         // console.log('Donor Data:', userData);
+        setDonorEmail(userData.email);
         setDonorFirstName(userData.firstname);
         setDonorLastName(userData.lastname);
         setDonorPhone(userData.phonenumber);
@@ -215,7 +218,7 @@ const FoodDetailScreen = ({ route }) => {
               />
             </>
           ) : (
-            <View>
+          <View>
             {/* Edit Food Button */}
             <ButtonCustom
               title={submitting ? 'Redirecting...' : 'Edit Food Details'}
@@ -250,7 +253,19 @@ const FoodDetailScreen = ({ route }) => {
                   ]
                 );
               }}
-              containerStyles="m-2 bg-[#8B0000]"
+              containerStyles="m-2 mt-1 bg-[#8B0000]"
+              isLoading={submitting}
+            />
+
+            {/* Complete Food Button */}
+            <ButtonCustom
+              title={submitting ? 'Redirecting...' : 'Complete Donation'}
+              handlePress={() => {
+                setSubmitting(true);
+                navigation.navigate('CompleteDetails', { foodItem, donorEmail, type });
+                setSubmitting(false);
+              }}
+              containerStyles="m-2 mt-1 bg-[#2FBE2F]"
               isLoading={submitting}
             />
           </View>
