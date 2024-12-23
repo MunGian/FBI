@@ -1,18 +1,13 @@
+import os
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
-import tensorflow as tf
-import numpy as np
 from PIL import Image
-from io import BytesIO
+import numpy as np
+import tensorflow as tf
 import cv2
-import os
+from io import BytesIO
 
-# Create the FastAPI app instance
 app = FastAPI()
-
-# Mount the images directory to serve static files
-app.mount("/images", StaticFiles(directory="images"), name="images")
 
 @app.post("/check-food")
 async def check_food(file: UploadFile = File(...)):
@@ -26,7 +21,7 @@ async def check_food(file: UploadFile = File(...)):
             image = image.convert('RGB')  # Convert to RGB (JPEG doesn't support alpha)
         
         # Save the image as JPEG to the 'images' folder
-        image_path = os.path.join("images", f"{file.filename.rsplit('.', 1)[0]}.jpg")  # Ensuring the file extension is .jpg
+        image_path = os.path.join("images", "food_photo.jpg")  # Temporary file name
         image.save(image_path, format='JPEG')
 
         # Load the TFLite model
@@ -36,13 +31,11 @@ async def check_food(file: UploadFile = File(...)):
         input_details = interpreter.get_input_details()
         output_details = interpreter.get_output_details()
 
-        # Convert image to numpy array (for use with OpenCV)
-        # image_np = np.array(image)
-
-        image = cv2.imread("C:/Users/wenji/Documents/GitHub/FBI\services\images\food_photo.jpg")
+        # Read and preprocess the image
+        image = cv2.imread(image_path)
 
         # Resize image to model's expected input size
-        image_resized = cv2.resize(image_np, (150, 150))  # Adjust size as per your model's input
+        image_resized = cv2.resize(image, (150, 150))  # Adjust size as per your model's input
 
         # Normalize the image
         image_resized = image_resized / 255.0
@@ -63,11 +56,18 @@ async def check_food(file: UploadFile = File(...)):
         # Get the prediction result (convert numpy.float32 to a regular float)
         prediction = float(output_data[0][0])
 
-        # Return prediction result and image URL
-        return {"prediction": prediction, "image_url": f"/images/{file.filename.rsplit('.', 1)[0]}.jpg"}
+        # Delete the temporary file
+        os.remove(image_path)
+
+        # Return prediction result
+        return {"prediction": prediction}
 
     except Exception as e:
+        # Ensure the temporary file is deleted even if an error occurs
+        if os.path.exists(image_path):
+            os.remove(image_path)
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
 
 if __name__ == "__main__":
     import uvicorn

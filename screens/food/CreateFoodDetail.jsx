@@ -76,7 +76,7 @@ const CreateFoodDetail = ({ navigation }) => {
         const prediction = result.prediction; // Assuming the response has 'prediction'
         console.log('Prediction:', prediction);
         
-        if (prediction < 0.5) {
+        if (prediction < 0.8) {
           Alert.alert('Low prediction', `Prediction: ${prediction}%. Please upload a clearer image.`);
           return false;
         } else {
