@@ -41,6 +41,73 @@ const CreateFoodDetail = ({ navigation }) => {
     }
   };
 
+  const uploadAndCheckImage = async () => {
+    if (!photoUrl) {
+      Alert.alert('Error', 'Please select an image first.');
+      return;
+    }
+  
+    // Extract the file extension from the photo URL
+    const fileExtension = photoUrl.split('.').pop().toLowerCase();
+  
+    // Determine the MIME type based on the file extension
+    const mimeType = fileExtension === 'png' ? 'image/png' :
+                     fileExtension === 'jpeg' || fileExtension === 'jpg' ? 'image/jpeg' :
+                     fileExtension === 'gif' ? 'image/gif' : 
+                     null;
+  
+    if (!mimeType) {
+      Alert.alert('Error', 'Unsupported file format. Please upload a PNG, JPG, or GIF image.');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('file', {
+      uri: photoUrl,
+      type: mimeType, // Dynamically set MIME type
+      name: `food_photo.${fileExtension}`, // Use correct file extension in the name
+    });
+  
+    try {
+      const response = await fetch('http://localhost:5000/check-food', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        const confidence = result.confidence;
+        const confidencePercentage = (confidence * 100).toFixed(2);
+  
+        if (confidence < 0.5) {
+          // If confidence is less than 50%, prompt the user to upload a new image
+          Alert.alert(
+            'Low Confidence',
+            `Confidence: ${confidencePercentage}%. Please upload a clearer image.`
+          );
+          return false;  // Indicate that the prediction is not satisfactory
+        } else {
+          // Otherwise, show the result
+          Alert.alert(
+            'Prediction Result',
+            `Class ID: ${result.class_id}\nConfidence: ${confidencePercentage}%`
+          );
+          return true;  // Indicate that the prediction is satisfactory
+        }
+      } else {
+        Alert.alert('Error', result.error || 'An error occurred during processing.');
+        return false;
+      }
+    } catch (error) {
+      Alert.alert('Error', `Failed to upload image: ${error.message}`);
+      return false;
+    }
+  };
+  
   // Handle Form Submission
 const handleSubmit = async () => {
 
@@ -59,50 +126,58 @@ const handleSubmit = async () => {
         return;
     }
 
+  // Add logic to validate the prediction results
+  const predictionResponse = await uploadAndCheckImage();
+  if (!predictionResponse) {
+    // If the prediction response is false, the user needs to upload a new image
+    Alert.alert('Error', 'Food photo does not meet the required criteria.');
+    return;
+  }
+
     try {
-      setSubmitting(true);
+      // setSubmitting(true);
   
-      // Insert into the 'fooditem' table
-      const { data: foodData, error: foodError } = await supabase
-        .from('fooditem')
-        .insert([
-          {
-            foodname: foodName,
-            category,
-            expirydate: expiryDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
-            quantity: parseInt(quantity, 10),
-            foodphoto_url: photoUrl,
-            address,
-            district,
-            description,
-          },
-        ])
-        .select(); // Ensure we fetch the inserted row(s)
+      // // Insert into the 'fooditem' table
+      // const { data: foodData, error: foodError } = await supabase
+      //   .from('fooditem')
+      //   .insert([
+      //     {
+      //       foodname: foodName,
+      //       category,
+      //       expirydate: expiryDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+      //       quantity: parseInt(quantity, 10),
+      //       foodphoto_url: photoUrl,
+      //       address,
+      //       district,
+      //       description,
+      //     },
+      //   ])
+      //   .select(); // Ensure we fetch the inserted row(s)
   
-      if (foodError) throw foodError;
+      // if (foodError) throw foodError;
   
-      const newFoodId = foodData[0].foodid; // Retrieve the inserted foodid
+      // const newFoodId = foodData[0].foodid; // Retrieve the inserted foodid
   
-      // Fetch the current user
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
+      // // Fetch the current user
+      // const {
+      //   data: { user },
+      //   error: userError,
+      // } = await supabase.auth.getUser();
   
-      if (userError) throw userError;
+      // if (userError) throw userError;
   
-      // Insert into the donation table
-      const { error: donationError } = await supabase
-        .from('donation')
-        .insert([
-          {
-            foodid: newFoodId,
-            donoremail: user.email,
-            donationdate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-          },
-        ]);
+      // // Insert into the donation table
+      // const { error: donationError } = await supabase
+      //   .from('donation')
+      //   .insert([
+      //     {
+      //       foodid: newFoodId,
+      //       donoremail: user.email,
+      //       donationdate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+      //     },
+      //   ]);
   
-      if (donationError) throw donationError;
+      // if (donationError) throw donationError;
   
       Alert.alert('Success', 'Food item posted successfully!');
       navigation.goBack();
