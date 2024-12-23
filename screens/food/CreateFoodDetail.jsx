@@ -44,32 +44,28 @@ const CreateFoodDetail = ({ navigation }) => {
   const uploadAndCheckImage = async () => {
     if (!photoUrl) {
       Alert.alert('Error', 'Please select an image first.');
-      return;
+      return false;
     }
   
-    // Extract the file extension from the photo URL
     const fileExtension = photoUrl.split('.').pop().toLowerCase();
-  
-    // Determine the MIME type based on the file extension
     const mimeType = fileExtension === 'png' ? 'image/png' :
                      fileExtension === 'jpeg' || fileExtension === 'jpg' ? 'image/jpeg' :
-                     fileExtension === 'gif' ? 'image/gif' : 
-                     null;
+                     fileExtension === 'gif' ? 'image/gif' : null;
   
     if (!mimeType) {
-      Alert.alert('Error', 'Unsupported file format. Please upload a PNG, JPG, or GIF image.');
-      return;
+      Alert.alert('Error', 'Unsupported file format. Allowed formats: PNG, JPG, GIF.');
+      return false;
     }
   
     const formData = new FormData();
     formData.append('file', {
       uri: photoUrl,
-      type: mimeType, // Dynamically set MIME type
-      name: `food_photo.${fileExtension}`, // Use correct file extension in the name
+      type: mimeType,
+      name: `food_photo.${fileExtension}`,
     });
   
     try {
-      const response = await fetch('http://localhost:5000/check-food', {
+      const response = await fetch('http://10.0.2.2:5000/check-food', {
         method: 'POST',
         body: formData,
         headers: {
@@ -83,20 +79,12 @@ const CreateFoodDetail = ({ navigation }) => {
         const confidence = result.confidence;
         const confidencePercentage = (confidence * 100).toFixed(2);
   
-        if (confidence < 0.5) {
-          // If confidence is less than 50%, prompt the user to upload a new image
-          Alert.alert(
-            'Low Confidence',
-            `Confidence: ${confidencePercentage}%. Please upload a clearer image.`
-          );
-          return false;  // Indicate that the prediction is not satisfactory
+        if (confidence < 0.2) {
+          Alert.alert('Low Confidence', `Confidence: ${confidencePercentage}%. Please upload a clearer image.`);
+          return false;
         } else {
-          // Otherwise, show the result
-          Alert.alert(
-            'Prediction Result',
-            `Class ID: ${result.class_id}\nConfidence: ${confidencePercentage}%`
-          );
-          return true;  // Indicate that the prediction is satisfactory
+          Alert.alert('Prediction Result', `Class ID: ${result.class_id}\nConfidence: ${confidencePercentage}%`);
+          return true;
         }
       } else {
         Alert.alert('Error', result.error || 'An error occurred during processing.');
@@ -107,6 +95,7 @@ const CreateFoodDetail = ({ navigation }) => {
       return false;
     }
   };
+  
   
   // Handle Form Submission
 const handleSubmit = async () => {
@@ -130,7 +119,7 @@ const handleSubmit = async () => {
   const predictionResponse = await uploadAndCheckImage();
   if (!predictionResponse) {
     // If the prediction response is false, the user needs to upload a new image
-    Alert.alert('Error', 'Food photo does not meet the required criteria.');
+    // Alert.alert('Error', 'Food photo does not meet the required criteria.');
     return;
   }
 
