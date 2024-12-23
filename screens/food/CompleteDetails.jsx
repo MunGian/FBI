@@ -6,7 +6,8 @@ import ButtonCustom from '../../components/ButtonCustom';
 import FormCustom from '../../components/FormCustom';
 
 const CompleteDetails = ({ route, navigation }) => {
-  const { foodItem, requestItem, donorEmail, requestEmail, type } = route.params;
+  const { foodItem, requestItem, donorEmail, requestEmail, type } = route.params || {}; // fallback to an empty object if route.params is undefined
+  
   const [typingPhone, setTypingPhone] = useState('+60');
   const [submitting, setSubmitting] = useState(false);
 
@@ -227,7 +228,7 @@ const CompleteDetails = ({ route, navigation }) => {
                               setSubmitting(true);
                               await handleCompleteDonation(foodItem.foodid); 
                               setSubmitting(false);
-                              navigation.navigate('RatingScreen', { foodItem });
+                              // navigation.navigate('RatingScreen', { foodItem });
                             },
                           },
                         ]

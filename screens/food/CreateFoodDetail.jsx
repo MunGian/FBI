@@ -68,22 +68,19 @@ const CreateFoodDetail = ({ navigation }) => {
       const response = await fetch('http://10.0.2.2:5000/check-food', {
         method: 'POST',
         body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       });
   
       const result = await response.json();
-  
+      
       if (response.ok) {
-        const confidence = result.confidence;
-        const confidencePercentage = (confidence * 100).toFixed(2);
-  
-        if (confidence < 0.2) {
-          Alert.alert('Low Confidence', `Confidence: ${confidencePercentage}%. Please upload a clearer image.`);
+        const prediction = result.prediction; // Assuming the response has 'prediction'
+        console.log('Prediction:', prediction);
+        
+        if (prediction < 0.5) {
+          Alert.alert('Low prediction', `Prediction: ${prediction}%. Please upload a clearer image.`);
           return false;
         } else {
-          Alert.alert('Prediction Result', `Class ID: ${result.class_id}\nConfidence: ${confidencePercentage}%`);
+          Alert.alert(`Success, prediction: ${prediction}%`);
           return true;
         }
       } else {
@@ -95,7 +92,6 @@ const CreateFoodDetail = ({ navigation }) => {
       return false;
     }
   };
-  
   
   // Handle Form Submission
 const handleSubmit = async () => {
@@ -119,7 +115,7 @@ const handleSubmit = async () => {
   const predictionResponse = await uploadAndCheckImage();
   if (!predictionResponse) {
     // If the prediction response is false, the user needs to upload a new image
-    // Alert.alert('Error', 'Food photo does not meet the required criteria.');
+    Alert.alert('Error', 'Food photo does not meet the required criteria.');
     return;
   }
 
@@ -169,7 +165,7 @@ const handleSubmit = async () => {
       // if (donationError) throw donationError;
   
       Alert.alert('Success', 'Food item posted successfully!');
-      navigation.goBack();
+      // navigation.goBack();
     } catch (error) {
       Alert.alert('Error', `Failed to add food item: ${error.message}`);
     } finally {
