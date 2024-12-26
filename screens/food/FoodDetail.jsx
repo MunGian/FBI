@@ -156,11 +156,15 @@ const FoodDetailScreen = ({ route }) => {
                     resizeMode="cover"
                 />
                 <Text className="text-xl font-pbold text-gray-400 mb-2">Category: {foodItem.category}</Text>
-                <Text className="text-base font-psemibold text-gray-700 mb-2">
-                    Expiry Date:{" "}
-                    <Text className="text-sm font-pmedium">
-                    {new Date(foodItem.expirydate).toLocaleDateString()}
-                    </Text>
+                <Text className="text-base font-pmedium text-gray-700 mb-2">
+                    <Text className="font-psemibold">Expiry Date: </Text>
+                    {foodItem.expirydate
+                        ? new Intl.DateTimeFormat('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                        }).format(new Date(foodItem.expirydate))
+                        : 'N/A'}
                 </Text>
                 <Text className="text-base font-psemibold text-gray-700 mb-2">
                     Quantity:{" "}

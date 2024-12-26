@@ -248,7 +248,9 @@ const HomeScreen = ({ navigation }) => {
         <View className="flex-row items-center">
           {/* Foods Button */}
           <TouchableOpacity
-            className="w-[47%] bg-white p-1.5 rounded-lg"
+            className={`w-[47%] bg-white p-1.5 rounded-lg ${
+              activeButton === "Foods" ? "border-b-4 border-[#1B627D]" : ""
+            }`}
             onPress={() => setActiveButton("Foods")}
           >
             <Text
@@ -262,7 +264,9 @@ const HomeScreen = ({ navigation }) => {
 
           {/* Requests Button */}
           <TouchableOpacity
-            className="ml-6 w-[47%] bg-white p-1.5 rounded-lg"
+            className={`ml-7 w-[47%] bg-white p-1.5 rounded-lg ${
+              activeButton === "Requests" ? "border-b-4 border-[#1B627D]" : ""
+            }`}
             onPress={() => setActiveButton("Requests")}
           >
             <Text

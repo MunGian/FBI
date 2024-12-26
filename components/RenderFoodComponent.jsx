@@ -17,7 +17,7 @@ const renderFoodComponent = ({ navigation, ...props }) => (
           </Text>
           <Text className="text-sm font-semibold text-gray-600">{props.category}</Text>
           <Text className="text-sm text-gray-500">
-            Expiry Date: 
+            Expiry Date: {''}
             {props.expirydate ? (
               new Intl.DateTimeFormat('en-GB', {
                 day: '2-digit',
@@ -28,12 +28,14 @@ const renderFoodComponent = ({ navigation, ...props }) => (
               'N/A'
             )}
           </Text>
+
           <Text className="text-sm text-gray-500"
             numberOfLines={1}
             ellipsizeMode="tail" 
           >
-            Quantity: {props.quantity}
+              Quantity: {props.quantity}
           </Text>
+
           <Text className="text-sm text-gray-500"
             numberOfLines={1} // Limit to one line and add ellipsis
             ellipsizeMode="tail" // Truncate at the end if overflowed

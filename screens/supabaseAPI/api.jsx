@@ -72,23 +72,25 @@ export const fetchFoodList = async () => {
     if (donationError) throw donationError;
 
     if (!donations || donations.length === 0) {
-      console.log("No available donations found.");
       return [];
     }
 
     // Extract food IDs from the donations
     const foodIds = donations.map((donation) => donation.foodid);
 
+    // Get today's date in the correct format
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
     // Query the fooditem table for detailed information about the food items
     const { data: foodItems, error: foodItemError } = await supabase
       .from('fooditem')
       .select('*')
-      .in('foodid', foodIds); // Filter by the food IDs from the donation table
+      .in('foodid', foodIds) // Filter by the food IDs from the donation table
+      .gte('expirydate', today); // Filter items with expirydate today or later
 
     if (foodItemError) throw foodItemError;
 
     if (!foodItems || foodItems.length === 0) {
-      console.log("No available food items found.");
       return [];
     }
 
@@ -98,6 +100,7 @@ export const fetchFoodList = async () => {
     return [];
   }
 };
+
 
 
 export const fetchRequestList = async () => {
@@ -148,19 +151,22 @@ export const fetchFilteredFoodList = async (category, district) => {
     if (donationError) throw donationError;
 
     if (!donations || donations.length === 0) {
-      console.log("No available donations found.");
+      // console.log("No available donations found.");
       return [];
     }
 
     // Extract food IDs from the donations
     const foodIds = donations.map((donation) => donation.foodid);
 
+    // Get today's date in the correct format
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
     // Query the fooditem table for detailed information about the food items
     let query =  supabase
       .from('fooditem')
       .select('*')
-      .in('foodid', foodIds); // Filter by the food IDs from the donation table
-
+      .in('foodid', foodIds) // Filter by the food IDs from the donation table
+      .gte('expirydate', today); // Filter items with expirydate today or later
 
     // Apply category filter if selected
     if (category) {
@@ -178,7 +184,7 @@ export const fetchFilteredFoodList = async (category, district) => {
     if (queryError) throw queryError;
 
     if (!foodItems || foodItems.length === 0) {
-      console.log("No matching food items found.");
+      // console.log("No matching food items found.");
       return [];
     }
 
@@ -263,13 +269,17 @@ export const fetchSearchedFoodList = async (searchQuery = '') => {
     // Extract the list of donated food IDs
     const donatedFoodIds = donatedHistory.map(item => item.foodid);
 
+    // Get today's date in the correct format
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
     // Build the query to filter food items based on the search query
     let query = supabase
       .from('fooditem')
       .select('*')
-      .in('foodid', donatedFoodIds); // Include only items that are "Pending" in donation
-
-    // Apply search filter if there's a query
+      .in('foodid', donatedFoodIds) // Include only items that are "Pending" in donation
+      .gte('expirydate', today); // Filter items with expirydate today or later
+    
+      // Apply search filter if there's a query
     if (searchQuery) {
       query = query.ilike('foodname', `%${searchQuery}%`); // Case-insensitive search for food name
     }
@@ -289,8 +299,7 @@ export const fetchSearchedFoodList = async (searchQuery = '') => {
     return [];
   }
 };
-
-
+    
 export const fetchSearchedRequestList = async (searchQuery = '') => {
   try {
     const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -333,7 +342,7 @@ export const fetchSearchedRequestList = async (searchQuery = '') => {
     if (queryError) throw queryError;
 
     if (!requestItems || requestItems.length === 0) {
-      console.log("No matching request items found.");
+      // console.log("No matching request items found.");
       return [];
     }
 
@@ -424,6 +433,106 @@ export const fetchDonatedFoodList = async () => {
   }
 };
 
+// in Create page
+export const fetchMyArticleList = async () => {
+  try {
+    // Get authenticated user details
+    const { data, error } = await supabase.auth.getUser();
+    const user = data?.user;
+
+    if (error || !user?.email) throw new Error("No authenticated user found");
+
+    // Query the 'articles' table, sorting by 'created_at' in descending order
+    const { data: articles, error: articlesError } = await supabase
+      .from('article')
+      .select(`
+        *,
+        users (
+          firstname,
+          lastname,
+          photo_url
+        )`
+      )
+      .eq('email', user.email)
+      .order('articledate', { ascending: false }); // Sort by 'created_at' descending
+
+    if (articlesError) throw error;
+
+    if (!articles || articles.length === 0) {
+      // console.log("No articles found.");
+      return [];
+    }
+
+    return articles;
+  } catch (error) {
+    console.error("Error fetching food list:", error.message);
+    return [];
+  }
+};
+
+// in explore page
+export const fetchArticles = async () => {
+  try {
+    // Query the 'articles' table, sorting by 'created_at' in descending order
+    const { data: articles, error: articlesError } = await supabase
+      .from('article')
+      .select(`
+        *,
+        users (
+          firstname,
+          lastname,
+          photo_url
+        )`
+      )
+      .order('articledate', { ascending: false }); // Sort by 'created_at' descending
+
+    if (articlesError) throw error;
+
+    if (!articles || articles.length === 0) {
+      // console.log("No articles found.");
+      return [];
+    }
+
+    return articles;
+  } catch (error) {
+    console.error("Error fetching articles:", error.message);
+    return [];
+  }
+};
+
+// in Explore page
+export const fetchEvents = async () => {
+  try{
+    // Get today's date in the correct format
+    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    // Query the 'events' table, sorting by 'created_at' in descending order
+    const { data: events, error: eventsError } = await supabase
+      .from('event')
+      .select(`
+        *,
+        users (
+          firstname,
+          lastname,
+          photo_url
+        )`
+      )
+      .gte('eventdate', today) // Filter items with eventdate today or later
+      .order('eventdate', { ascending: false }); // Sort by 'created_at' descending
+
+    if (eventsError) throw error;
+
+    if (!events || events.length === 0) {
+      // console.log("No events found.");
+      return [];
+    }
+
+    return events;
+  } catch (error) {
+    console.error("Error fetching events:", error.message);
+    return [];
+  }
+}
+
 // in History page
 export const fetchDonatedHistory = async () => {
   try {
@@ -463,7 +572,7 @@ export const fetchDonatedHistory = async () => {
     const filteredHistory = donatedHistory.filter(item => item.fooditem);
 
     if (filteredHistory.length === 0) {
-      console.log("No valid donation history found after filtering empty foreign keys.");
+      // console.log("No valid donation history found after filtering empty foreign keys.");
       return [];
     }
 
@@ -512,7 +621,7 @@ export const fetchRequestHistory = async () => {
     const filteredHistory = requestHistory.filter(item => item.request);
 
     if (filteredHistory.length === 0) {
-      console.log("No valid request history found after filtering empty foreign keys.");
+      // console.log("No valid request history found after filtering empty foreign keys.");
       return [];
     }
 

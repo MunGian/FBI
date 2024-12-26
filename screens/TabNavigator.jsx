@@ -8,6 +8,7 @@ import HomeScreen from './(tabs)/Home';
 import ProfileScreen from './(tabs)/Profile';
 import HistoryScreen from './(tabs)/History';
 import CreateScreen from './(tabs)/Create';
+import ExploreScreen from './(tabs)/Explore';
 import icons from '../constants/icons';
 
 const Tab = createBottomTabNavigator();
@@ -59,7 +60,7 @@ const TabNavigator = () => {
           }}
         />
         <Tab.Screen 
-          name="Create" 
+          name="Manage" 
           component={CreateScreen}
           options={{
             headerShown: false,
@@ -67,7 +68,22 @@ const TabNavigator = () => {
               <TabBarIcon 
                 icon={icons.plus} 
                 color={color}
-                name="Create"
+                name="Manage"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Explore" 
+          component={ExploreScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                icon={icons.explore}
+                color={color}   
+                name="Explore"
                 focused={focused}
               />
             ),

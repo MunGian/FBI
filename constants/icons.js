@@ -18,6 +18,7 @@ import defaultUserIcon from "../assets/icons/defaultUserIcon.png";
 import donate from "../assets/icons/donate.png";
 import receive from "../assets/icons/receive.png";
 import star from "../assets/icons/star.png";
+import explore from "../assets/icons/explore.png";
 
 export default {
   play,
@@ -37,6 +38,7 @@ export default {
   defaultUserIcon, //used
   logout, //used
   star, //used
+  explore, //used
   eyeHide,
   eye,
   history,

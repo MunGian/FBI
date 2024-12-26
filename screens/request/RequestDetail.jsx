@@ -153,13 +153,20 @@ const RequestDetail = ({ route }) => {
                       {requestItem.requestname}
                     </Text>
                 </Text>
+
                 <Text className="text-xl font-pbold text-gray-400 mb-2">Category: {requestItem.category}</Text>
-                <Text className="text-base font-psemibold text-gray-700 mb-2">
-                    Post Date:{" "}
-                    <Text className="text-sm font-pmedium">
-                    {new Date(requestItem.requestdate).toLocaleDateString()}
-                    </Text>
+                
+                <Text className="text-base font-pmedium text-gray-700 mb-2">
+                    <Text className="font-psemibold">Posted Date: </Text>
+                    {requestItem.requestdate
+                        ? new Intl.DateTimeFormat('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                        }).format(new Date(requestItem.requestdate))
+                        : 'N/A'}
                 </Text>
+
                 <Text className="text-base font-psemibold text-gray-700 mb-2">
                     Quantity:{" "}
                     <Text className="text-sm font-pmedium">{requestItem.quantity}</Text>

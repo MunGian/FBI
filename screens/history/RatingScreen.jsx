@@ -81,7 +81,7 @@ const RatingScreen = ({ route }) => {
       await Promise.all([fetchDonorDetails(), fetchRecipientDetails()]);
       setLoading(false);
 
-      console.log(donation.donorstatus, donation.recipientstatus);  
+      // console.log(donation.donorstatus, donation.recipientstatus);  
     };
 
     fetchDetails();

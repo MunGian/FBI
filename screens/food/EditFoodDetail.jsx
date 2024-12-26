@@ -44,9 +44,68 @@ const EditFoodScreen = ({ route, navigation }) => {
     }
   };
 
+  const uploadAndCheckImage = async () => {
+    if (!photoUrl) {
+      Alert.alert('Error', 'Please select an image first.');
+      return false;
+    }
+  
+    const fileExtension = photoUrl.split('.').pop().toLowerCase();
+    const mimeType = fileExtension === 'png' ? 'image/png' :
+                     fileExtension === 'jpeg' || fileExtension === 'jpg' ? 'image/jpeg' :
+                     fileExtension === 'gif' ? 'image/gif' : null;
+  
+    if (!mimeType) {
+      Alert.alert('Error', 'Unsupported file format. Allowed formats: PNG, JPG, GIF.');
+      return false;
+    }
+  
+    const formData = new FormData();
+    formData.append('file', {
+      uri: photoUrl,
+      type: mimeType,
+      name: `food_photo.${fileExtension}`,
+    });
+  
+    try {
+      const response = await fetch('http://10.0.2.2:5000/check-food', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const result = await response.json();
+      
+      if (response.ok) {
+        const prediction = result.prediction; // Assuming the response has 'prediction'
+        console.log('Prediction:', prediction);
+        
+        if (prediction < 0.8) {
+          // Alert.alert('Low prediction', `Prediction: ${prediction}%. Please upload a clearer image.`);
+          return false;
+        } else {
+          // Alert.alert(`Success, prediction: ${prediction}%`);
+          return true;
+        }
+      } else {
+        Alert.alert('Error', result.error || 'An error occurred during processing.');
+        return false;
+      }
+    } catch (error) {
+      Alert.alert('Error', `Failed to upload image: ${error.message}`);
+      return false;
+    }
+  };
+
   const handleUpdate = async () => {
     if (!foodName || !category || !quantity || !address || !district || !description || !expiryDate || !photoUrl) {
       Alert.alert("Edit Food Details Error", "Please ensure all fields are filled in before submitting.");
+      return;
+    }
+
+    const predictionResponse = await uploadAndCheckImage();
+    if (!predictionResponse) {
+      // If the prediction response is false, the user needs to upload a new image
+      Alert.alert('Image Error', 'Please upload a clearer food image.');
       return;
     }
 

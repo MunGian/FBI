@@ -77,10 +77,10 @@ const CreateFoodDetail = ({ navigation }) => {
         console.log('Prediction:', prediction);
         
         if (prediction < 0.8) {
-          Alert.alert('Low prediction', `Prediction: ${prediction}%. Please upload a clearer image.`);
+          // Alert.alert('Low prediction', `Prediction: ${prediction}%. Please upload a clearer image.`);
           return false;
         } else {
-          Alert.alert(`Success, prediction: ${prediction}%`);
+          // Alert.alert(`Success, prediction: ${prediction}%`);
           return true;
         }
       } else {
@@ -111,61 +111,60 @@ const handleSubmit = async () => {
         return;
     }
 
-  // Add logic to validate the prediction results
   const predictionResponse = await uploadAndCheckImage();
   if (!predictionResponse) {
     // If the prediction response is false, the user needs to upload a new image
-    Alert.alert('Error', 'Food photo does not meet the required criteria.');
+    Alert.alert('Image Error', 'Please upload a clearer food image.');
     return;
   }
 
     try {
-      // setSubmitting(true);
+      setSubmitting(true);
   
-      // // Insert into the 'fooditem' table
-      // const { data: foodData, error: foodError } = await supabase
-      //   .from('fooditem')
-      //   .insert([
-      //     {
-      //       foodname: foodName,
-      //       category,
-      //       expirydate: expiryDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
-      //       quantity: parseInt(quantity, 10),
-      //       foodphoto_url: photoUrl,
-      //       address,
-      //       district,
-      //       description,
-      //     },
-      //   ])
-      //   .select(); // Ensure we fetch the inserted row(s)
+      // Insert into the 'fooditem' table
+      const { data: foodData, error: foodError } = await supabase
+        .from('fooditem')
+        .insert([
+          {
+            foodname: foodName,
+            category,
+            expirydate: expiryDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+            quantity: parseInt(quantity, 10),
+            foodphoto_url: photoUrl,
+            address,
+            district,
+            description,
+          },
+        ])
+        .select(); // Ensure we fetch the inserted row
   
-      // if (foodError) throw foodError;
+      if (foodError) throw foodError;
   
-      // const newFoodId = foodData[0].foodid; // Retrieve the inserted foodid
+      const newFoodId = foodData[0].foodid; // Retrieve the inserted foodid
   
-      // // Fetch the current user
-      // const {
-      //   data: { user },
-      //   error: userError,
-      // } = await supabase.auth.getUser();
+      // Fetch the current user
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
   
-      // if (userError) throw userError;
+      if (userError) throw userError;
   
-      // // Insert into the donation table
-      // const { error: donationError } = await supabase
-      //   .from('donation')
-      //   .insert([
-      //     {
-      //       foodid: newFoodId,
-      //       donoremail: user.email,
-      //       donationdate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-      //     },
-      //   ]);
+      // Insert into the donation table
+      const { error: donationError } = await supabase
+        .from('donation')
+        .insert([
+          {
+            foodid: newFoodId,
+            donoremail: user.email,
+            donationdate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+          },
+        ]);
   
-      // if (donationError) throw donationError;
+      if (donationError) throw donationError;
   
       Alert.alert('Success', 'Food item posted successfully!');
-      // navigation.goBack();
+      navigation.goBack();
     } catch (error) {
       Alert.alert('Error', `Failed to add food item: ${error.message}`);
     } finally {

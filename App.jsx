@@ -17,6 +17,10 @@ import DonationDetail from './screens/history/DonationDetails';
 import RatingScreen from './screens/history/RatingScreen';
 import RequestedDetail from './screens/history/RequestDetails';
 import CompleteDetails from './screens/food/CompleteDetails';
+import CreateArticle from './screens/explore/CreateArticle';
+import ArticleDetail from './screens/explore/ArticleDetail';
+import EditArticleDetail from './screens/explore/EditArticle';
+import EventDetail from './screens/explore/EventDetail';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +77,26 @@ const App = () => {
           <Stack.Screen 
             name="CreateRequestDetail" 
             component={CreateRequestDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="CreateArticle" 
+            component={CreateArticle} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="ArticleDetail" 
+            component={ArticleDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="EditArticleDetail" 
+            component={EditArticleDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="EventDetail" 
+            component={EventDetail} 
             options={{ headerShown: false }} 
           />
           <Stack.Screen 

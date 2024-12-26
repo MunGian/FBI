@@ -108,7 +108,9 @@ const HistoryScreen = ({ navigation }) => {
         <View className="flex-row items-center mt-10">
             {/* Foods Button */}
             <TouchableOpacity
-              className="w-[47%] bg-white p-1.5 rounded-lg"
+              className={`w-[47%] bg-white p-1.5 rounded-lg ${
+                activeButton === "Foods" ? "border-b-4 border-[#1B627D]" : ""
+              }`}
               onPress={() => setActiveButton("Foods")}
             >
               <Text
@@ -122,7 +124,9 @@ const HistoryScreen = ({ navigation }) => {
   
             {/* Requests Button */}
             <TouchableOpacity
-              className="ml-6 w-[47%] bg-white p-1.5 rounded-lg"
+              className={`ml-7 w-[47%] bg-white p-1.5 rounded-lg ${
+                activeButton === "Requests" ? "border-b-4 border-[#1B627D]" : ""
+              }`}
               onPress={() => setActiveButton("Requests")}
             >
               <Text
@@ -158,8 +162,8 @@ const HistoryScreen = ({ navigation }) => {
                 receiptdate={item.receiptdate}
                 donorfeedback={item.donorfeedback}
                 donorrating={item.donorrating}
-                recepientfeedback={item.recepientfeedback}
-                recepientrating={item.recepientrating}
+                recipientfeedback={item.recipientfeedback}
+                recipientrating={item.recipientrating}
                 donorstatus={item.donorstatus}
                 recipientstatus={item.recipientstatus}
                 navigation={navigation}
@@ -202,8 +206,8 @@ const HistoryScreen = ({ navigation }) => {
                   receiptdate={item.receiptdate}
                   donorfeedback={item.donorfeedback}
                   donorrating={item.donorrating}
-                  recepientfeedback={item.recepientfeedback}
-                  recepientrating={item.recepientrating}
+                  recipientfeedback={item.recipientfeedback}
+                  recipientrating={item.recipientrating}
                   donorstatus={item.donorstatus}
                   recipientstatus={item.recipientstatus}
                   navigation={navigation}

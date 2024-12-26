@@ -22,6 +22,11 @@ const DonationDetails = ({ route }) => {
   const [recipientPhone, setRequestPhone] = useState('');
   const [recipientPhoto, setRequestPhoto] = useState('');
   
+  const [recipientFeedback, setRequestFeedback] = useState(request.recipientfeedback || '');
+  const [recipientRating, setRequestRating] = useState(request.recipientrating || 0);
+  const [donorFeedback, setDonorFeedback] = useState(request.donorfeedback || '');
+  const [donorRating, setDonorRating] = useState(request.donorrating ||  0);
+
   const fetchRecipientDetails = async () => {
     try {
       if (!request?.recipientemail) {
@@ -197,6 +202,51 @@ const DonationDetails = ({ route }) => {
              {/* Conditional Rendering: Donor Info or Edit Food Button (for donor only in create tab) */}
           {request.type === "recipient" ? (
              <View>
+
+              {/* Donor Feedback and Rating */}
+              <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
+                <Text className="text-xl font-pbold text-[#1B627D] mb-2">
+                  Donor Feedback Details
+                </Text>
+
+                <Text className="text-base font-psemibold text-gray-700">
+                  Donor Feedback:
+                </Text>
+
+                {donorFeedback !== '' ? 
+                  (
+                  <View>
+                    <Text className="text-md font-pmedium text-gray-700">
+                      {donorFeedback}
+                    </Text>  
+                  </View>
+                ): (
+                  <View>
+                    <Text className="text-md font-pmedium text-gray-500">
+                      Donor hasn't given any feedback yet
+                    </Text>  
+                  </View>
+                )}
+
+                <Text className="text-base font-psemibold text-gray-700 mt-2">
+                  Rating Given by Donor:
+                </Text>  
+                {/* Display Stars or N/A */}
+                {donorRating === 0 || !donorRating ? (
+                  <Text className="text-md font-pmedium text-gray-500">Donor hasn't rated your service yet</Text>
+                ) : (
+                  <View className="flex-row mb-2">
+                    {Array(donorRating).fill().map((_, index) => (
+                      <Image
+                        key={index}
+                        source={icons.star}
+                        className={`w-8 h-8 `}
+                      />
+                    ))}
+                  </View>
+                )}
+              </View>
+
              <>
                {/* request Information Box */}
                <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg items-center flex-row">
@@ -239,6 +289,52 @@ const DonationDetails = ({ route }) => {
            </View>
           ) : (
             <View>
+
+              {/* Donor Feedback and Rating */}
+              <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
+                <Text className="text-xl font-pbold text-[#1B627D] mb-2">
+                  Recipient Feedback Details
+                </Text>
+
+                <Text className="text-base font-psemibold text-gray-700">
+                  Recipient Feedback:
+                </Text>
+
+                {recipientFeedback !== '' ? 
+                  (
+                  <View>
+                    <Text className="text-md font-pmedium text-gray-700">
+                      {recipientFeedback}
+                    </Text>  
+                  </View>
+                ): (
+                  <View>
+                    <Text className="text-md font-pmedium text-gray-500">
+                      Recipient hasn't given any feedback yet
+                    </Text>  
+                  </View>
+                )}
+
+                <Text className="text-base font-psemibold text-gray-700 mt-2">
+                  Rating Given by Recipient:
+                </Text>  
+
+                {/* Display Stars or N/A */}
+                {recipientRating === 0 || !recipientRating ? (
+                  <Text className="text-md font-pmedium text-gray-500">Recipient hasn't rated your service yet</Text>
+                ) : (
+                  <View className="flex-row mb-2">
+                    {Array(recipientRating).fill().map((_, index) => (
+                      <Image
+                        key={index}
+                        source={icons.star}
+                        className={`w-8 h-8 `}
+                      />
+                    ))}
+                  </View>
+                )}
+              </View>
+
             <>
               {/* request Information Box */}
               <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg items-center flex-row">
