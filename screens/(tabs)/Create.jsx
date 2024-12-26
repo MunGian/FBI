@@ -28,8 +28,8 @@ const Create = ({ navigation }) => {
       setRequests(updatedRequests);
       const updatedArticles = await fetchMyArticleList(); // in api.jsx file
       setArticles(updatedArticles);
-      // const updatedEvents = await fetchMyEventList(); // in api.jsx file
-      // setEvents(updatedEvents);
+      const updatedEvents = await fetchMyEventList(); // in api.jsx file
+      setEvents(updatedEvents);
     } catch (error) {
       console.error("Error refreshing list:", error.message);
     } finally {
@@ -47,8 +47,8 @@ const Create = ({ navigation }) => {
         setRequests(requests);
         const articles = await fetchMyArticleList(); // in api.jsx file
         setArticles(articles);
-        // const events = await fetchMyEventList(); // in api.jsx file
-        // setEvents(events);
+        const events = await fetchMyEventList(); // in api.jsx file
+        setEvents(events);
       } catch (error) {
         console.error("Error fetching food list:", error.message);
       } finally {
@@ -232,18 +232,24 @@ const Create = ({ navigation }) => {
       renderItem={({ item }) => (
         <RenderEventComponent
           eventid={item.eventid}
-          eventname={item.eventname}
+          eventtitle={item.eventtitle}
           eventdate={item.eventdate}
+          eventphotourl={item.eventphotourl}
+          eventurl={item.eventurl}
           eventlocation={item.eventlocation}
           eventdescription={item.eventdescription}
+          postemail={item.users.email}
+          postfirstname={item.users.firstname}
+          postlastname={item.users.lastname}
           navigation={navigation}
+          type="self"
         />
       )}
       ListEmptyComponent={() => (
         <EmptyCustom
           title="No Events Found"
           description="You haven't posted any event yet."
-          handlePress={() => navigation.navigate('CreateEventDetail')}
+          handlePress={() => navigation.navigate('CreateEvent')}
           buttonTitle="Create New Event"
         />
       )}
@@ -256,7 +262,8 @@ const Create = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {activeButton === 'Foods' ? navigation.navigate('CreateFoodDetail') 
                         : activeButton === "Requests" ? navigation.navigate('CreateRequestDetail')
-                        : navigation.navigate('CreateArticle')}}
+                        : activeButton === "Articles" ? navigation.navigate('CreateArticle')
+                        : navigation.navigate('CreateEvent')}}
         className="absolute bottom-8 right-8 bg-[#1B627D] p-4 rounded-full shadow-lg"
       >
         <RNImage

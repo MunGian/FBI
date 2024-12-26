@@ -375,7 +375,8 @@ export const fetchRequestedFoodList = async () => {
       )
     `)
     .eq('status', 'Pending')
-    .eq('requestemail', user.email);
+    .eq('requestemail', user.email)
+    .order('requestdate', { ascending: false });
 
     if (requestError) throw requestError;
 
@@ -422,7 +423,7 @@ export const fetchDonatedFoodList = async () => {
       .from('fooditem')
       .select('*')
       .in('foodid', donatedFoodIds)
-      .limit(20); // Limit to 20 items
+      .order('expirydate', { ascending: false });
 
     if (foodError) throw foodError;
 
@@ -464,6 +465,43 @@ export const fetchMyArticleList = async () => {
     }
 
     return articles;
+  } catch (error) {
+    console.error("Error fetching food list:", error.message);
+    return [];
+  }
+};
+
+// in Create page
+export const fetchMyEventList = async () => {
+  try {
+    // Get authenticated user details
+    const { data, error } = await supabase.auth.getUser();
+    const user = data?.user;
+
+    if (error || !user?.email) throw new Error("No authenticated user found");
+
+    // Query the 'event' table, sorting by 'created_at' in descending order
+    const { data: events, error: eventsError } = await supabase
+      .from('event')
+      .select(`
+        *,
+        users (
+          firstname,
+          lastname,
+          photo_url
+        )`
+      )
+      .eq('email', user.email)
+      .order('eventdate', { ascending: false }); 
+
+    if (eventsError) throw error;
+
+    if (!events || events.length === 0) {
+      // console.log("No articles found.");
+      return [];
+    }
+
+    return events;
   } catch (error) {
     console.error("Error fetching food list:", error.message);
     return [];

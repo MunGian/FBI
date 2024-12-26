@@ -42,7 +42,7 @@ const ArticleDetailScreen = ({ route }) => {
     }
   };
 
- const deleteArticle = async (eventId) => {
+ const deleteEvent = async (eventId) => {
     try {
       const { error } = await supabase
         .from('event')
@@ -137,7 +137,7 @@ const ArticleDetailScreen = ({ route }) => {
               title={submitting ? 'Redirecting...' : 'Edit Event Details'}
               handlePress={() => {
                 setSubmitting(true);
-                navigation.navigate('EditArticleDetail', { eventDetail });
+                navigation.navigate('EditEventDetail', { eventDetail });
                 setSubmitting(false);
               }}
               containerStyles="m-2"

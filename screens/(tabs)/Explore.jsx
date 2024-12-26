@@ -154,7 +154,7 @@ const ExploreScreen = ({ navigation }) => {
               <EmptyCustom
                 title="No Events Found"
                 description="There are no events being organized yet."
-                handlePress={() => navigation.navigate('CreateRequestDetail')}
+                handlePress={() => navigation.navigate('CreateEvent')}
                 buttonTitle="Create New Event"
               />
             )}

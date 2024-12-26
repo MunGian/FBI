@@ -21,7 +21,8 @@ import CreateArticle from './screens/explore/CreateArticle';
 import ArticleDetail from './screens/explore/ArticleDetail';
 import EditArticleDetail from './screens/explore/EditArticle';
 import EventDetail from './screens/explore/EventDetail';
-
+import EditEventDetail from './screens/explore/EditEvent';
+import CreateEvent from './screens/explore/CreateEvent';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -97,6 +98,16 @@ const App = () => {
           <Stack.Screen 
             name="EventDetail" 
             component={EventDetail} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="CreateEvent" 
+            component={CreateEvent} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="EditEventDetail" 
+            component={EditEventDetail} 
             options={{ headerShown: false }} 
           />
           <Stack.Screen 
