@@ -354,7 +354,7 @@ export const fetchSearchedRequestList = async (searchQuery = '') => {
 };
 
 
-// in Create page
+// in Manage page
 export const fetchRequestedFoodList = async () => {
   try {
     // Get authenticated user details
@@ -392,7 +392,7 @@ export const fetchRequestedFoodList = async () => {
   }
 };
 
-// in Create page
+// in Manage page
 export const fetchDonatedFoodList = async () => {
   try {
     // Get authenticated user details
@@ -434,7 +434,7 @@ export const fetchDonatedFoodList = async () => {
   }
 };
 
-// in Create page
+// in Manage page
 export const fetchMyArticleList = async () => {
   try {
     // Get authenticated user details
@@ -451,7 +451,8 @@ export const fetchMyArticleList = async () => {
         users (
           firstname,
           lastname,
-          photo_url
+          photo_url,
+          phonenumber
         )`
       )
       .eq('email', user.email)
@@ -488,7 +489,8 @@ export const fetchMyEventList = async () => {
         users (
           firstname,
           lastname,
-          photo_url
+          photo_url,
+          phonenumber
         )`
       )
       .eq('email', user.email)
@@ -519,7 +521,8 @@ export const fetchArticles = async () => {
         users (
           firstname,
           lastname,
-          photo_url
+          photo_url,
+          phonenumber
         )`
       )
       .order('articledate', { ascending: false }); // Sort by 'created_at' descending
@@ -551,7 +554,8 @@ export const fetchEvents = async () => {
         users (
           firstname,
           lastname,
-          photo_url
+          photo_url,
+          phonenumber
         )`
       )
       .gte('eventdate', today) // Filter items with eventdate today or later

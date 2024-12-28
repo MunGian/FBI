@@ -20,17 +20,20 @@ const renderDonationComponent = ({ navigation, ...props }) => (
         </View>
 
         <View className="flex-1 mr-3">
-          <Text className="text-lg font-semibold text-[#50C878]"
+          <Text className="text-base font-pbold text-[#50C878]"
           numberOfLines={1} 
           ellipsizeMode="tail" 
           >
             {props.foodname}{props.requestname} 
           </Text>
 
-          <Text className="text-sm font-semibold text-gray-600">{props.category}</Text>
+          <Text className="text-sm font-pbold text-gray-600">{props.category}</Text>
           
           <Text className="text-sm text-gray-500">
-            Receipt Date: {new Intl.DateTimeFormat('en-GB', {
+            <Text className="font-psemibold">
+              Receipt Date:  {''}
+            </Text>
+            {new Intl.DateTimeFormat('en-GB', {
               day: '2-digit',
               month: 'short',
               year: 'numeric',
@@ -41,7 +44,10 @@ const renderDonationComponent = ({ navigation, ...props }) => (
             numberOfLines={1} // Limit to one line and add ellipsis
             ellipsizeMode="tail" // Truncate at the end if overflowed
           >
-            Address: {props.address}, {""}
+            <Text className="font-psemibold">
+              Address:  {''}
+            </Text>
+            {props.address}, {""}
             {props.district}
           </Text>
             

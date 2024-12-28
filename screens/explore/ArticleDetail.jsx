@@ -18,6 +18,7 @@ const ArticleDetailScreen = ({ route }) => {
   const [postFirstName, setPostFirstName] = useState('');
   const [postLastName, setPostLastName] = useState('');
   const [postPhoto, setPostPhoto] = useState('');
+  const [postPhone, setPostPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
   
   useEffect(() => {
@@ -28,6 +29,7 @@ const ArticleDetailScreen = ({ route }) => {
     setArticleDate(articleDetail.articledate);
     setPostFirstName(articleDetail.postfirstname);
     setPostLastName(articleDetail.postlastname);
+    setPostPhone(articleDetail.postphone);
     setPostPhoto(articleDetail.postphoto);
   }, ([]));
   
@@ -61,66 +63,82 @@ const ArticleDetailScreen = ({ route }) => {
   return (
     <SafeAreaView className="bg-neutral-200 h-full w-full relative">
         <ScrollView className="">
-            {/* Back Button */}
-            <TouchableOpacity
-            className="absolute top-4 left-4 bg-gray-300 p-3 rounded-full z-10"
-            onPress={() => navigation.goBack()}
-            >
-            <RNImage
-                source={icons.leftArrow}
-                style={{ width: 24, height: 24, tintColor: '#333' }} 
-            />
-            </TouchableOpacity>
+          {/* Back Button */}
+          <TouchableOpacity
+          className="absolute top-4 left-4 bg-gray-300 p-3 rounded-full z-10"
+          onPress={() => navigation.goBack()}
+          >
+          <RNImage
+              source={icons.leftArrow}
+              style={{ width: 24, height: 24, tintColor: '#333' }} 
+          />
+          </TouchableOpacity>
 
-            {/* Article Details Box */}
-            <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
-                <Text className="text-2xl font-bold text-[#50C878] mb-3 mt-12">
-                    {articleTitle}
-                </Text>
+          {/* Article Details Box */}
+          <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
+              <Text className="text-2xl font-pbold text-[#50C878] mb-3 mt-12">
+                  {articleTitle}
+              </Text>
 
-                <Image
-                    source={
-                        articlePhotoUrl
-                        ? { uri: articlePhotoUrl }
-                        : icons.defaultUserIcon
-                    }
-                    className="w-full h-64 rounded-lg mb-4"
-                    resizeMode="cover"
-                />
+              <Image
+                  source={
+                      articlePhotoUrl
+                      ? { uri: articlePhotoUrl }
+                      : icons.defaultUserIcon
+                  }
+                  className="w-full h-64 rounded-lg mb-4"
+                  resizeMode="contain"
+              />
 
-                <Text className="text-base font-pmedium text-gray-700 mb-2">
-                    <Text className="font-psemibold">Posted On: </Text>
-                    {articleDate
-                        ? new Intl.DateTimeFormat('en-GB', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                        }).format(new Date(articleDate))
-                        : 'N/A'}
-                </Text>
+              <Text className="text-base font-pmedium text-gray-700 mb-2">
+                  <Text className="font-psemibold">Posted On: </Text>
+                  {articleDate
+                      ? new Intl.DateTimeFormat('en-GB', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                      }).format(new Date(articleDate))
+                      : 'N/A'}
+              </Text>
 
-                <Text className="text-base font-psemibold text-gray-700">Article Description: </Text>
-                <Text className="text-md font-pmedium text-gray-700 mb-2">
-                    {articleDescription}
-                </Text>
+              <Text className="text-base font-psemibold text-gray-700">Article Description: </Text>
+              <Text className="text-md font-pmedium text-gray-700 mb-2">
+                  {articleDescription}
+              </Text>
+          </View>
 
-                <View className="">
-                    <Text className="text-base font-psemibold text-gray-700">
-                        Posted By:
-                    </Text>
-                    <Text className="text-md font-pmedium text-gray-700 mb-1.5">
-                        {postFirstName && postLastName
-                        ? `${postFirstName} ${postLastName}`
-                        : 'N/A'}
-                    </Text>
-                </View>
-            </View>
-            
              {/* Conditional Rendering: Donor Info or Edit Food Button (for donor only in create tab) */}
           {articleDetail.type === 'post' ? (
             <>
+              <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg items-center flex-row">
+                <View>
+                  <Image
+                    source={postPhoto ? { uri: postPhoto } : icons.defaultUserIcon}
+                    className="w-24 h-24 rounded-lg"
+                    resizeMode="cover"
+                  />
+                </View>
+
+                <View className="ml-4 pt-2">
+                  <Text className="text-base font-psemibold text-gray-700">
+                      Posted By:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700 mb-1.5">
+                    {postFirstName && postLastName
+                      ? `${postFirstName} ${postLastName}`
+                      : 'N/A'}
+                  </Text>
+                  <Text className="text-base font-psemibold text-gray-700">
+                      Phone Number:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700">
+                    {postPhone || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+              
               <ButtonCustom
-                title={submitting ? 'Redirecting...' : 'Read Article'}
+                title={submitting ? 'Redirecting...' : 'Read Full Article'}
                 handlePress={() => {
                   setSubmitting(true);
                   handlePress();
@@ -132,7 +150,7 @@ const ArticleDetailScreen = ({ route }) => {
             </>
           ) : (
           <View>
-            {/* Edit Food Button */}
+            {/* Edit article Button */}
             <ButtonCustom
               title={submitting ? 'Redirecting...' : 'Edit Article Details'}
               handlePress={() => {
@@ -144,7 +162,7 @@ const ArticleDetailScreen = ({ route }) => {
               isLoading={submitting}
             />
         
-            {/* Delete Food Button */}
+            {/* Delete article Button */}
             <ButtonCustom
               title={submitting ? 'Deleting...' : 'Delete Article'}
               handlePress={() => {

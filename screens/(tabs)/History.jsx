@@ -138,6 +138,14 @@ const HistoryScreen = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          <View className="bg-yellow-100 p-4 rounded-lg mb-1 text-lg font-psemibold">
+            <Text className="text-gray-800 font-psemibold">
+              View your completed donations and requests, and don't forget to rate for your donor or recipient!
+              Thank you for making a difference!
+            </Text>
+          </View>
+                
         </View>
       
         {activeButton === "Foods" ? (

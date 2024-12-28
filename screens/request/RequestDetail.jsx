@@ -154,7 +154,7 @@ const RequestDetail = ({ route }) => {
                     </Text>
                 </Text>
 
-                <Text className="text-xl font-pbold text-gray-400 mb-2">Category: {requestItem.category}</Text>
+                <Text className="text-xl font-pbold text-gray-700 mb-2">Category: {requestItem.category}</Text>
                 
                 <Text className="text-base font-pmedium text-gray-700 mb-2">
                     <Text className="font-psemibold">Posted Date: </Text>

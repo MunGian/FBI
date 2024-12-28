@@ -115,11 +115,13 @@ const Create = ({ navigation }) => {
           </ScrollView>
         </View>
 
-        {/* Subtitle */}
-        <Text className="text-white text-base font-psemibold leading-relaxed mt-2">
-          View and manage your donated foods, or click the button below to add new items for donation.
-          Thank you for making a difference!
-        </Text>
+        <View className="bg-yellow-100 p-4 rounded-lg mb-1 text-lg font-psemibold">
+          <Text className="text-gray-800 font-psemibold">
+            View and manage your existing posts, or click the button at right bottom below to add new posts.
+            Thank you for making a difference!
+          </Text>
+        </View>
+
       </View>
 
   {/* Conditional Rendering Based on activeButton */}
@@ -207,6 +209,7 @@ const Create = ({ navigation }) => {
           postfirstname={item.users.firstname}
           postlastname={item.users.lastname}
           postphoto={item.users.photo_url}
+          postphone={item.users.phonenumber}
           navigation={navigation}
           type="self"
         />
@@ -241,6 +244,8 @@ const Create = ({ navigation }) => {
           postemail={item.users.email}
           postfirstname={item.users.firstname}
           postlastname={item.users.lastname}
+          postphoto={item.users.photo_url}
+          postphone={item.users.phonenumber}
           navigation={navigation}
           type="self"
         />

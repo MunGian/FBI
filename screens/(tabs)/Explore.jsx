@@ -110,6 +110,7 @@ const ExploreScreen = ({ navigation }) => {
                 postfirstname={item.users.firstname}
                 postlastname={item.users.lastname}
                 postphoto={item.users.photo_url}
+                postphone={item.users.phonenumber}
                 navigation={navigation}
                 type="post"
               />
@@ -145,6 +146,8 @@ const ExploreScreen = ({ navigation }) => {
                   postemail={item.email}
                   postfirstname={item.users.firstname}
                   postlastname={item.users.lastname}
+                  postphoto={item.users.photo_url}
+                  postphone={item.users.phonenumber}
                   navigation={navigation}
                   type="post"
                 />

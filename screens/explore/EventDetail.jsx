@@ -18,6 +18,7 @@ const ArticleDetailScreen = ({ route }) => {
   const [postFirstName, setPostFirstName] = useState('');
   const [postLastName, setPostLastName] = useState('');
   const [postPhoto, setPostPhoto] = useState('');
+  const [postPhone, setPostPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
   
   useEffect(() => {
@@ -29,6 +30,7 @@ const ArticleDetailScreen = ({ route }) => {
     setPostFirstName(eventDetail.postfirstname);
     setPostLastName(eventDetail.postlastname);
     setPostPhoto(eventDetail.postphoto);
+    setPostPhone(eventDetail.postphone);
   }, ([]));
   
 
@@ -74,7 +76,7 @@ const ArticleDetailScreen = ({ route }) => {
 
             {/* Article Details Box */}
             <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
-                <Text className="text-2xl font-bold text-[#50C878] mb-3 mt-12">
+                <Text className="text-2xl font-pbold text-[#50C878] mb-3 mt-12">
                     {eventTitle}
                 </Text>
 
@@ -103,22 +105,38 @@ const ArticleDetailScreen = ({ route }) => {
                 <Text className="text-md font-pmedium text-gray-700 mb-2">
                     {eventDescription}
                 </Text>
-
-                <View className="">
-                    <Text className="text-base font-psemibold text-gray-700">
-                        Posted By:
-                    </Text>
-                    <Text className="text-md font-pmedium text-gray-700 mb-1.5">
-                        {postFirstName && postLastName
-                        ? `${postFirstName} ${postLastName}`
-                        : 'N/A'}
-                    </Text>
-                </View>
             </View>
             
              {/* Conditional Rendering: Donor Info or Edit Food Button (for donor only in create tab) */}
           {eventDetail.type === 'post' ? (
             <>
+              <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg items-center flex-row">
+                <View>
+                  <Image
+                    source={postPhoto ? { uri: postPhoto } : icons.defaultUserIcon}
+                    className="w-24 h-24 rounded-lg"
+                    resizeMode="cover"
+                  />
+                </View>
+
+                <View className="ml-4 pt-2">
+                  <Text className="text-base font-psemibold text-gray-700">
+                      Posted By:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700 mb-1.5">
+                    {postFirstName && postLastName
+                      ? `${postFirstName} ${postLastName}`
+                      : 'N/A'}
+                  </Text>
+                  <Text className="text-base font-psemibold text-gray-700">
+                      Phone Number:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700">
+                    {postPhone || 'N/A'}
+                  </Text>
+                </View>
+              </View>
+
               <ButtonCustom
                 title={submitting ? 'Redirecting...' : 'RSVP to Event'}
                 handlePress={() => {

@@ -51,6 +51,7 @@ const FoodDetailScreen = ({ route }) => {
         setDonorFirstName(userData.firstname);
         setDonorLastName(userData.lastname);
         setDonorPhone(userData.phonenumber);
+        setPhoto(userData.photo_url);
       } catch (error) {
         console.error('Error fetching donor details:', error);
       } finally {
@@ -147,7 +148,7 @@ const FoodDetailScreen = ({ route }) => {
 
             {/* Food Details Box */}
             <View className="bg-white p-5 pb-1 rounded-lg shadow-lg mb-2 z-0">
-                <Text className="text-2xl font-bold text-[#50C878] mb-3 mt-12">
+                <Text className="text-2xl font-pbold text-[#50C878] mb-3 mt-12">
                     {foodItem.foodname}
                 </Text>
                 <Image
@@ -155,7 +156,7 @@ const FoodDetailScreen = ({ route }) => {
                     className="w-full h-64 rounded-lg mb-4"
                     resizeMode="cover"
                 />
-                <Text className="text-xl font-pbold text-gray-400 mb-2">Category: {foodItem.category}</Text>
+                <Text className="text-xl font-pbold text-gray-700 mb-2">Category: {foodItem.category}</Text>
                 <Text className="text-base font-pmedium text-gray-700 mb-2">
                     <Text className="font-psemibold">Expiry Date: </Text>
                     {foodItem.expirydate
@@ -193,21 +194,32 @@ const FoodDetailScreen = ({ route }) => {
           {foodItem.food === 'available' ? (
             <>
               {/* Donor Information Box */}
-              <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg">
-                <Text className="text-base font-psemibold text-gray-700">
-                  Donor Name:
-                </Text>
-                <Text className="text-md font-pmedium text-gray-700 mb-1.5">
-                  {donorFirstName && donorLastName
-                    ? `${donorFirstName} ${donorLastName}`
-                    : 'N/A'}
-                </Text>
-                <Text className="text-base font-psemibold text-gray-700">
-                  Donor Phone:
-                </Text>
-                <Text className="text-md font-pmedium text-gray-700">
-                  {donorPhone || 'N/A'}
-                </Text>
+
+            <View className="bg-white p-6 pt-2 pb-2 rounded-lg shadow-lg items-center flex-row">
+                <View>
+                  <Image
+                    source={donorPhoto ? { uri: donorPhoto } : icons.defaultUserIcon}
+                    className="w-24 h-24 rounded-lg"
+                    resizeMode="cover"
+                  />
+                </View>
+                
+                <View className="ml-4 pt-2">
+                  <Text className="text-base font-psemibold text-gray-700">
+                     Donor Name:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700 mb-1.5">
+                    {donorFirstName && donorLastName
+                      ? `${donorFirstName} ${donorLastName}`
+                      : 'N/A'}
+                  </Text>
+                  <Text className="text-base font-psemibold text-gray-700">
+                     Donor Phone Number:
+                  </Text>
+                  <Text className="text-md font-pmedium text-gray-700">
+                    {donorPhone || 'N/A'}
+                  </Text>
+                </View>
               </View>
 
               <ButtonCustom
