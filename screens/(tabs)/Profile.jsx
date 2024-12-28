@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Switch, SafeAreaView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Switch, SafeAreaView, Linking } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native'; 
 import { fetchUserDetails } from '../supabaseAPI/api';
 import icons from '../../constants/icons';
@@ -26,6 +26,20 @@ const ProfileScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Failed to fetch user data:", error.message);
     }
+  };
+
+  const handleContactSupport = () => {
+    const email = "wastenotofficial@gmail.com";
+    const subject = "Support Inquiry"; 
+    const body = ""; 
+
+    // Construct the mailto URL
+    const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Use Linking to open the email client
+    Linking.openURL(mailto).catch((err) => {
+      console.error("Failed to open email client:", err);
+    });
   };
 
   useFocusEffect(
@@ -93,12 +107,12 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Preferences Section */}
         <View className="mt-5 px-6">
-          <Text className="text-gray-400 text-xs font-semibold mb-2">
-            PREFERENCES
+          <Text className="text-gray-500 text-xs font-semibold mb-2">
+            GENERAL
           </Text>
 
           {/* Push Notifications */}
-          <View className="bg-gray-100 p-4 rounded-lg mb-2 flex-row items-center">
+          {/* <View className="bg-gray-100 p-4 rounded-lg mb-2 flex-row items-center">
             <Text className="flex-1 text-gray-800 font-semibold">
               Push notifications
             </Text>
@@ -108,11 +122,14 @@ const ProfileScreen = ({ navigation }) => {
               thumbColor={notificationsEnabled ? "#50C878" : "#f4f3f4"}
               trackColor={{ false: "#d1d5db", true: "#50C878" }}
             />
-          </View>
+          </View> */}
 
           {/* Support */}
-          <TouchableOpacity className="bg-gray-100 p-4 rounded-lg flex-row items-center">
-            <Text className="flex-1 text-gray-800 font-semibold">Support</Text>
+          <TouchableOpacity
+            className="bg-gray-100 p-4 rounded-lg flex-row items-center"
+            onPress={handleContactSupport}
+          >
+            <Text className="flex-1 text-gray-800 font-semibold">Contact Support</Text>
             <Text className="text-gray-400">&gt;</Text>
           </TouchableOpacity>
         </View>
