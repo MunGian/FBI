@@ -19,18 +19,24 @@ import donate from "../assets/icons/donate.png";
 import receive from "../assets/icons/receive.png";
 import star from "../assets/icons/star.png";
 import explore from "../assets/icons/explore.png";
+import support from "../assets/icons/support.png";
+import term from "../assets/icons/term.png";
+import about from "../assets/icons/about.png";
+import achievement from "../assets/icons/achievement.png";
+import article from "../assets/icons/article.png";
+import event from "../assets/icons/event.png";
 
 export default {
   play,
   bookmark,
   home, //used
-  filter,
-  plus,
+  filter, //used
+  plus, //used
   profile, //used
   invite, //used
   leftArrow,
-  menu,
-  search,
+  menu, //used
+  search, //used
   upload,
   rightArrow,
   donate, //used
@@ -39,7 +45,13 @@ export default {
   logout, //used
   star, //used
   explore, //used
+  support, //used
+  term, //used
+  about, //used
+  achievement, //used
+  article, //used
+  event, //used
   eyeHide,
   eye,
-  history,
+  history, //usedd
 };

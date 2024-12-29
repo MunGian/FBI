@@ -23,6 +23,9 @@ import EditArticleDetail from './screens/explore/EditArticle';
 import EventDetail from './screens/explore/EventDetail';
 import EditEventDetail from './screens/explore/EditEvent';
 import CreateEvent from './screens/explore/CreateEvent';
+import About from './screens/profile/About';
+import Terms from './screens/profile/Terms';
+import Achievement from './screens/profile/Achievement';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -133,6 +136,21 @@ const App = () => {
           <Stack.Screen 
             name="EditProfile" 
             component={EditProfile} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="Achievement" 
+            component={Achievement} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="About" 
+            component={About} 
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="Terms" 
+            component={Terms} 
             options={{ headerShown: false }} 
           />
           <Stack.Screen

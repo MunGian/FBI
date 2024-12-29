@@ -40,8 +40,8 @@ const renderRequestComponent = ({ navigation, ...props }) => (
 
         <View className="flex-1 ml-3">
           <Text className="text-base font-pbold text-[#50C878]"
-          numberOfLines={1} 
-          ellipsizeMode="tail" 
+            numberOfLines={1} 
+            ellipsizeMode="tail" 
           >
             {props.requestname}
           </Text>

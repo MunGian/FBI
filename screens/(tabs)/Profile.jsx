@@ -6,7 +6,6 @@ import icons from '../../constants/icons';
 import { supabase } from '../../services/supabase';
 
 const ProfileScreen = ({ navigation }) => {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -91,7 +90,11 @@ const ProfileScreen = ({ navigation }) => {
                 Invite Friends
               </Text>
               <Text className="text-gray-800 font-psemibold">
-                Invite your friends to join WasteNot and start sharing surplus food today!
+                Invite your friends to join 
+                <Text className="text-[#1B627D] font-pbold">
+                  {' '}WasteNot{' '}
+                </Text>
+                and start sharing surplus food today!
               </Text>
             </View>
 
@@ -107,7 +110,7 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Preferences Section */}
         <View className="mt-5 px-6">
-          <Text className="text-gray-500 text-xs font-semibold mb-2">
+          <Text className="text-black text-base font-pbold mb-2">
             GENERAL
           </Text>
 
@@ -124,13 +127,60 @@ const ProfileScreen = ({ navigation }) => {
             />
           </View> */}
 
+          {/* Your Achievements */}
+          <TouchableOpacity
+            className="p-4 rounded-lg flex-row items-center border-b-2 border-gray-400 mt-1"
+            onPress={() => navigation.navigate('Achievement')}
+          >
+            <Image 
+              source={icons.achievement} 
+              className="w-8 h-8 mr-2" 
+              resizeMode="contain"
+            />
+            <Text className="flex-1 text-gray-800 font-semibold">Your Achievements</Text>
+            <Text className="text-black">&gt;</Text>
+          </TouchableOpacity>
+
           {/* Support */}
           <TouchableOpacity
-            className="bg-gray-100 p-4 rounded-lg flex-row items-center"
+            className="p-4 rounded-lg flex-row items-center border-b-2 border-gray-400 mt-1"
             onPress={handleContactSupport}
           >
+            <Image 
+              source={icons.support} 
+              className="w-8 h-8 mr-2" 
+              resizeMode="contain"
+            />
             <Text className="flex-1 text-gray-800 font-semibold">Contact Support</Text>
-            <Text className="text-gray-400">&gt;</Text>
+            <Text className="text-black">&gt;</Text>
+          </TouchableOpacity>
+
+          {/* Term and Policy */}
+          <TouchableOpacity
+            className="p-4 rounded-lg flex-row items-center border-b-2 border-gray-400 mt-1"
+            onPress={() => navigation.navigate('Terms')}
+          >
+            <Image 
+              source={icons.term} 
+              className="w-7 h-7 mr-2" 
+              resizeMode="contain"
+            />
+            <Text className="flex-1 text-gray-800 font-semibold">Terms & Policies</Text>
+            <Text className="font-3xl text-black">&gt;</Text>
+          </TouchableOpacity>
+
+          {/* About*/}
+          <TouchableOpacity
+            className="p-4 rounded-lg flex-row items-center border-b-2 border-gray-400 mt-1"
+            onPress={() => navigation.navigate('About')}
+          >
+            <Image 
+              source={icons.about} 
+              className="w-7 h-7 mr-2" 
+              resizeMode="contain"
+            />
+            <Text className="flex-1 text-gray-800 font-semibold">About</Text>
+            <Text className="font-3xl text-black">&gt;</Text>
           </TouchableOpacity>
         </View>
 
@@ -138,14 +188,14 @@ const ProfileScreen = ({ navigation }) => {
         <View className="mt-8 px-6 mb-10">
           <TouchableOpacity
             onPress={logout}
-            className="bg-gray-100 p-4 rounded-lg flex-row items-center"
+            className="bg-gray-100 p-4 rounded-lg flex-row items-center justify-center"
           >
             <Image
               source={icons.logout}
               className="w-6 h-6"
               resizeMode="contain"
             />
-            <Text className="text-red-500 font-pbold pl-3">Logout</Text>
+            <Text className="text-red-500 text-base font-pbold pl-2">Logout</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
