@@ -155,7 +155,7 @@ const Achievement = ({ navigation }) => {
                     />
                     <Text className="text-gray-800 text-sm font-pmedium text-justify pt-1">
                         <Text className="text-[#1B627D] text-lg font-pbold">
-                            Your Have Completed {'\n'}
+                            You Have Completed {'\n'}
                             <Text className="text-xl">
                                 {donationCount} {''}
                                 Donation(s)!
@@ -177,7 +177,7 @@ const Achievement = ({ navigation }) => {
                     />
                     <Text className="text-gray-800 text-sm font-pmedium text-justify pt-1">
                         <Text className="text-[#1B627D] text-lg font-pbold">
-                            Your Have Completed {'\n'}
+                            You Have Completed {'\n'}
                             <Text className="text-xl">
                                 {requestCount} {''}
                                 Request(s)!
@@ -199,7 +199,7 @@ const Achievement = ({ navigation }) => {
                     />
                     <Text className="text-gray-800 text-sm font-pmedium text-justify pt-1">
                         <Text className="text-[#1B627D] text-lg font-pbold">
-                            Your Have Posted {'\n'}
+                            You Have Posted {'\n'}
                             <Text className="text-xl">
                                 {articleCount} {''}
                                 Article(s)!
@@ -221,7 +221,7 @@ const Achievement = ({ navigation }) => {
                     />
                     <Text className="text-gray-800 text-sm font-pmedium text-justify pt-1">
                         <Text className="text-[#1B627D] text-lg font-pbold">
-                            Your Have Posted {'\n'}
+                            You Have Posted {'\n'}
                             <Text className="text-xl">
                                 {eventCount} {''}
                                 Event(s)!

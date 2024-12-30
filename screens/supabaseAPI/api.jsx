@@ -102,7 +102,6 @@ export const fetchFoodList = async () => {
 };
 
 
-
 export const fetchRequestList = async () => {
   try {
     const { data, error } = await supabase.auth.getUser();
@@ -123,7 +122,7 @@ export const fetchRequestList = async () => {
       `)
       .eq('status', 'Pending')
       .neq('requestemail', user.email); // Exclude requests from the logged-in user
-
+      
     if (requestError) throw requestError;
 
     return requestFoodItems;
@@ -490,7 +489,7 @@ export const fetchMyEventList = async () => {
           firstname,
           lastname,
           photo_url,
-          phonenumber
+          phonenumber 
         )`
       )
       .eq('email', user.email)
