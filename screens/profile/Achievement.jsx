@@ -238,7 +238,7 @@ const Achievement = ({ navigation }) => {
                 Thank You for Making a Difference!
             </Text>
             <Text className="text-gray-800 font-psemibold text-justify">
-                Every contribution you make—whether donating surplus food, sharing knowledge, or engaging with our community—brings us closer to a world with less food waste and more kindness.
+                Every contribution you make — whether donating surplus food, sharing knowledge, or engaging with our community — brings us closer to a world with less food waste and more kindness.
                 Your generosity and efforts play a vital role in nourishing communities and protecting our planet. We’re proud to celebrate your achievements and grateful to have you as part of the 
                 <Text className="text-[#1B627D] font-pbold">
                     {' '}WasteNot{' '}
