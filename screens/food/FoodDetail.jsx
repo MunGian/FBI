@@ -5,6 +5,7 @@ import { supabase } from '../../services/supabase';
 import icons from '../../constants/icons';
 import ButtonCustom from '../../components/ButtonCustom';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchUserRating } from '../supabaseAPI/api';
 
 const FoodDetailScreen = ({ route }) => {
   const { foodItem } = route.params;
@@ -16,6 +17,7 @@ const FoodDetailScreen = ({ route }) => {
   const [donorLastName, setDonorLastName] = useState('');
   const [donorPhone, setDonorPhone] = useState('');
   const [donorPhoto, setPhoto] = useState(null);
+  const [donorRating, setDonorRating] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const type = 'donor';
@@ -52,6 +54,7 @@ const FoodDetailScreen = ({ route }) => {
         setDonorLastName(userData.lastname);
         setDonorPhone(userData.phonenumber);
         setPhoto(userData.photo_url);
+        setDonorRating(await fetchUserRating(userData.email));
       } catch (error) {
         console.error('Error fetching donor details:', error);
       } finally {
@@ -208,11 +211,20 @@ const FoodDetailScreen = ({ route }) => {
                   <Text className="text-base font-psemibold text-gray-700">
                      Donor Name:
                   </Text>
-                  <Text className="text-md font-pmedium text-gray-700 mb-1.5">
+                  <Text className="text-md font-pmedium text-gray-700 mb-1.5 mt-[-4]">
                     {donorFirstName && donorLastName
                       ? `${donorFirstName} ${donorLastName}`
-                      : 'N/A'}
+                      : 'N/A'},{' '} 
+                      <Text>
+                        <Image
+                          source={icons.star}
+                          className="w-5 h-5"
+                          resizeMode="cover"
+                        />
+                        {donorRating !== 0 ? <Text className='font-psemibold'>{donorRating}</Text> : 'No Rating Yet'} 
+                      </Text>
                   </Text>
+
                   <Text className="text-base font-psemibold text-gray-700">
                      Donor Phone Number:
                   </Text>

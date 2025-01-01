@@ -23,7 +23,7 @@ const ProfileScreen = ({ navigation }) => {
         profileImage: userData.photo_url || "", // Ensure photo_url is valid or empty
       });
     } catch (error) {
-      console.error("Failed to fetch user data:", error.message);
+      // console.error("Failed to fetch user data:", error.message);
     }
   };
 

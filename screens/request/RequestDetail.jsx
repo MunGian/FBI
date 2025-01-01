@@ -5,6 +5,7 @@ import { supabase } from '../../services/supabase';
 import icons from '../../constants/icons';
 import ButtonCustom from '../../components/ButtonCustom';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchUserRating } from '../supabaseAPI/api';
 
 const RequestDetail = ({ route }) => {
   const { requestItem } = route.params;
@@ -15,6 +16,7 @@ const RequestDetail = ({ route }) => {
   const [requestFirstName, setRequestFirstName] = useState('');
   const [requestLastName, setRequestLastName] = useState('');
   const [requestPhone, setRequestPhone] = useState('');
+  const [requesterRating, setRequesterRating] = useState(0);
   const [requestPhoto, setRequestPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -52,6 +54,7 @@ const RequestDetail = ({ route }) => {
         setRequestLastName(userData.lastname);
         setRequestPhone(userData.phonenumber);
         setRequestPhoto(userData.photo_url);
+        setRequesterRating(await fetchUserRating(userData.email));
       } catch (error) {
         console.error('Error fetching request details:', error);
       } finally {
@@ -206,10 +209,18 @@ const RequestDetail = ({ route }) => {
                   <Text className="text-base font-psemibold text-gray-700">
                     Requester Name:
                   </Text>
-                  <Text className="text-md font-pmedium text-gray-700 mb-1.5">
+                  <Text className="text-md font-pmedium text-gray-700 mb-1.5 mt-[-7]">
                     {requestFirstName && requestLastName
                       ? `${requestFirstName} ${requestLastName}`
-                      : 'N/A'}
+                      : 'N/A'},{' '} 
+                    <Text>
+                      <Image
+                        source={icons.star}
+                        className="w-6 h-6"
+                        resizeMode="cover"
+                      />
+                      {requesterRating !== 0 ? <Text className='font-psemibold'>{requesterRating}</Text> : 'No Rating Yet'} 
+                    </Text>
                   </Text>
                   <Text className="text-base font-psemibold text-gray-700">
                     Requester Phone Number:

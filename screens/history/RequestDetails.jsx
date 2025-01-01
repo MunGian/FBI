@@ -5,6 +5,7 @@ import { supabase } from '../../services/supabase';
 import icons from '../../constants/icons';
 import ButtonCustom from '../../components/ButtonCustom';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchUserRating } from '../supabaseAPI/api';
 
 const DonationDetails = ({ route }) => {
   const { request } = route.params;
@@ -22,6 +23,9 @@ const DonationDetails = ({ route }) => {
   const [recipientPhone, setRequestPhone] = useState('');
   const [recipientPhoto, setRequestPhoto] = useState('');
   
+  const [displayDonorRating, setDisplayDonorRating] = useState(0);
+  const [displayRecipientRating, setDisplayRecipientRating] = useState(0);
+
   const [recipientFeedback, setRequestFeedback] = useState(request.recipientfeedback || '');
   const [recipientRating, setRequestRating] = useState(request.recipientrating || 0);
   const [donorFeedback, setDonorFeedback] = useState(request.donorfeedback || '');
@@ -46,6 +50,7 @@ const DonationDetails = ({ route }) => {
       setRequestLastName(userData.lastname);
       setRequestPhone(userData.phonenumber);
       setRequestPhoto(userData.photo_url);
+       setDisplayRecipientRating(await fetchUserRating(request.recipientemail));
     } catch (error) {
       console.error('Error fetching recipient details:', error);
     }
@@ -67,6 +72,7 @@ const DonationDetails = ({ route }) => {
       setDonorLastName(userData.lastname);
       setDonorPhone(userData.phonenumber);
       setDonorPhoto(userData.photo_url);
+      setDisplayDonorRating(await fetchUserRating(donorEmail));
     } catch (error) {
       console.error('Error fetching donor details:', error);
     }
@@ -79,7 +85,7 @@ const DonationDetails = ({ route }) => {
       setLoading(false);
     };
 
-    console.log('Donation:', request.receiptdate);
+    // console.log('Donation:', request.receiptdate);
     fetchDetails();
   }, [request]); // Include `request` in the dependency array
 
@@ -264,8 +270,16 @@ const DonationDetails = ({ route }) => {
                    <Text className="text-md font-pmedium text-gray-700 mb-1.5">
                      {donorFirstName && donorLastName
                        ? `${donorFirstName} ${donorLastName}`
-                       : 'N/A'}
-                   </Text>
+                       : 'N/A'},{' '} 
+                      <Text>
+                        <Image
+                          source={icons.star}
+                          className="w-6 h-6"
+                          resizeMode="cover"
+                        />
+                        {displayDonorRating !== 0 ? <Text className='font-psemibold'>{displayDonorRating}</Text> : 'No Rating Yet'}
+                      </Text>
+                  </Text>
                    <Text className="text-base font-psemibold text-gray-700">
                      Donor Phone Number:
                    </Text>
@@ -352,7 +366,15 @@ const DonationDetails = ({ route }) => {
                   <Text className="text-md font-pmedium text-gray-700 mb-1.5">
                     {recipientFirstName && recipientLastName
                       ? `${recipientFirstName} ${recipientLastName}`
-                      : 'N/A'}
+                      : 'N/A'},{' '} 
+                      <Text>
+                        <Image
+                          source={icons.star}
+                          className="w-6 h-6"
+                          resizeMode="cover"
+                        />
+                        {displayRecipientRating !== 0 ? <Text className='font-psemibold'>{displayRecipientRating}</Text> : 'No Rating Yet'}
+                      </Text>
                   </Text>
                   <Text className="text-base font-psemibold text-gray-700">
                     Recipient Phone Number:

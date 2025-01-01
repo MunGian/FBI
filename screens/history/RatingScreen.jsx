@@ -5,7 +5,7 @@ import { supabase } from '../../services/supabase';
 import icons from '../../constants/icons';
 import ButtonCustom from '../../components/ButtonCustom';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { updateDonorFeedback, updateRecipientFeedback } from '../supabaseAPI/api'
+import { updateDonorFeedback, updateRecipientFeedback, updateUserRating } from '../supabaseAPI/api'
 
 const RatingScreen = ({ route }) => {
   const { donation } = route.params;
@@ -161,6 +161,7 @@ const RatingScreen = ({ route }) => {
                                 try {
                                     setSubmitting(true);
                                     await updateRecipientFeedback(donation.receiptid, recipientEmail, feedback, rating);
+                                    await updateUserRating(donorEmail, rating);
                                     Alert.alert("Success", "Feedback submitted successfully.");
                                     setFeedback('');
                                     setRating(0);
@@ -237,6 +238,7 @@ const RatingScreen = ({ route }) => {
                                 try {
                                     setSubmitting(true);
                                     await updateDonorFeedback(donation.receiptid, donorEmail, feedback, rating);
+                                    await updateUserRating(recipientEmail, rating);
                                     Alert.alert("Success", "Feedback submitted successfully.");
                                     setFeedback('');
                                     setRating(0);

@@ -5,6 +5,8 @@ import images from '../../constants/images';
 import FormCustom from '../../components/FormCustom';
 import ButtonCustom from '../../components/ButtonCustom';
 import { supabase } from '../../services/supabase';
+// import bcrypt from 'react-native-bcrypt';
+// import { randomBytes } from 'react-native-randombytes';
 
 const SignUp = ({ navigation }) => {
   const [form, setForm] = React.useState({
@@ -30,7 +32,16 @@ const SignUp = ({ navigation }) => {
     return emailRegex.test(email);
   };
 
-  const createProfile = async () => {
+  // // Set a secure random fallback
+  // bcrypt.setRandomFallback((length) => {
+  //   return randomBytes(length).toString('binary');
+  // });
+
+const createProfile = async () => {
+  try {
+    // const salt = bcrypt.genSaltSync(10);
+    // const hashedPassword = bcrypt.hashSync(form.password, salt);
+
     const { data, error } = await supabase.from('users').insert([
       {
         username: form.username,
@@ -44,10 +55,17 @@ const SignUp = ({ navigation }) => {
     ]);
 
     if (error) {
-      console.error("Profile creation error:", error.message);
+      // console.error("Profile creation error:", error.message);
       Alert.alert("Profile Creation Error", error.message);
+      return;
     }
-  };
+
+    Alert.alert("Profile Created Successfully", "Your account has been created.");
+  } catch (err) {
+    // console.error("Error hashing password:", err.message);
+    Alert.alert("Error", "Something went wrong while creating the profile.");
+  }
+};
 
   const registerAndGoToHome = async () => {
     if (!form.username) {

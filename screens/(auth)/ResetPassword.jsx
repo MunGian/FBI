@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FormCustom from '../../components/FormCustom';
 import ButtonCustom from '../../components/ButtonCustom';
 import { supabase } from '../../services/supabase';
+// import bcrypt from 'react-native-bcrypt';
+// import { randomBytes } from 'react-native-randombytes';
 
 const ResetPassword = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
@@ -40,60 +42,70 @@ const ResetPassword = ({ navigation }) => {
     }
   };
 
-  const resetPassword = async () => {
+    // // Set a secure random fallback
+    // bcrypt.setRandomFallback((length) => {
+    //   return randomBytes(length).toString('binary');
+    // });
 
-    const userPassword = await supabase
-      .from('users')
-      .select('password')
-      .eq('email', email)
-      .single();
+    const resetPassword = async () => {
+      setSubmitting(true);
 
-      console.log(userPassword.data.password);
+      const userPassword = await supabase
+        .from('users')
+        .select('password')
+        .eq('email', email)
+        .single();
   
-      const currentPassword = userPassword.data.password; // Plain-text password from the database
-      console.log(currentPassword);
-
-    let { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: currentPassword,
-    })
-    if (error) {
-      Alert.alert("Error", "There was an issue with fetching.");
-    }
-
-    if (!newPassword || !confirmPassword) {
-      Alert.alert("Input Error", "Please enter and confirm your new password.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      Alert.alert("Input Error", "Passwords do not match. Please try again.");
-      return;
-    }
-
-    try {
-      const { error } = await supabase.auth.updateUser({
+        // console.log(userPassword.data.password);
+    
+        const currentPassword = userPassword.data.password; // Plain-text password from the database
+        // console.log(currentPassword);
+  
+      let { data, error } = await supabase.auth.signInWithPassword({
         email: email,
-        password: newPassword,
-      });
-
-      const { data, updateError } = await supabase
-      .from('users')
-      .update({
-          password: newPassword,
-        })
-      .eq('email', email)
-      if (updateError) {throw updateError;}
-
-      if (!error) {
-        Alert.alert("Success", "Password updated successfully!");
-        navigation.navigate('SignIn'); // Redirect to sign-in after success
-      } else {
-        Alert.alert("Error", "There was an issue updating your password.");
+        password: currentPassword,
+      })
+      if (error) {
+        Alert.alert("Error", "There was an issue with fetching.");
       }
-    } catch (err) {
-      Alert.alert("Error", "An unexpected error occurred.");
-    }
-  };
+  
+      if (!newPassword || !confirmPassword) {
+        Alert.alert("Input Error", "Please enter and confirm your new password.");
+        setSubmitting(false);
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        Alert.alert("Input Error", "Passwords do not match. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+  
+      try {
+        const { error } = await supabase.auth.updateUser({
+          email: email,
+          password: newPassword,
+        });
+  
+        const { data, updateError } = await supabase
+        .from('users')
+        .update({
+            password: newPassword,
+          })
+        .eq('email', email)
+        if (updateError) {throw updateError;}
+  
+        if (!error) {
+          Alert.alert("Success", "Password updated successfully!");
+          navigation.navigate('SignIn'); // Redirect to sign-in after success
+        } else {
+          Alert.alert("Error", "There was an issue updating your password.");
+        }
+      } catch (err) {
+        Alert.alert("Error", "An unexpected error occurred.");
+      } finally {
+        setSubmitting(false);
+      }
+    };
 
   return (
     <SafeAreaView className="bg-[#50C878] h-full">

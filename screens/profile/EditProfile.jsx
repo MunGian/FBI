@@ -139,7 +139,7 @@ const EditProfileScreen = ({ navigation }) => {
             value={user.phoneNo}
           />
 
-          <Text className="text-base text-white font-pmedium mt-4">Food Photo:</Text>
+          <Text className="text-base text-white font-pmedium mt-4">Profile Photo:</Text>
           <TouchableOpacity
             onPress={selectImage}
             className="mt-2 p-3 bg-white rounded-lg flex-row items-center"

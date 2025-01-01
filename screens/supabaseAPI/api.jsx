@@ -23,6 +23,68 @@ export const fetchUserLastName = async () => {
   }
 };
 
+export const fetchUserRating = async (email)=> {
+
+  try {
+      const { data: ratingDetails, error: queryError } = await supabase
+      .from('users')
+      .select('rating, ratingcount')
+      .eq('email', email)
+      .single();
+
+      if (queryError) {
+        console.error("Error querying users table:", queryError.message);
+        throw queryError;
+      }
+
+      if(ratingDetails.ratingcount === 0){
+        return 0;
+      }
+
+      const result = ratingDetails.rating / ratingDetails.ratingcount;
+
+      return Math.round(result * 10) / 10;
+  } catch (error) {
+      // console.error("Error fetching user rating:", error.message);
+      return '';
+  }
+};
+
+export const updateUserRating = async (email, rating) => {
+  try {
+    // Fetch the current rating details of the user
+    const { data: ratingDetails, error: queryError } = await supabase
+      .from('users')
+      .select('rating, ratingcount')
+      .eq('email', email)
+      .single();
+
+    if (queryError) {
+      // console.error("Error querying users table:", queryError.message);
+      throw queryError;
+    }
+
+    // Calculate the new rating and rating count
+    const newRating = ratingDetails.rating + rating;
+    const newRatingCount = ratingDetails.ratingcount + 1;
+
+    // Update the user's rating and rating count
+    const { data: updatedRating, error: updateError } = await supabase
+      .from('users')
+      .update({ rating: newRating, ratingcount: newRatingCount })
+      .eq('email', email);
+
+    if (updateError) {
+      // console.error("Error updating user rating:", updateError.message);
+      throw updateError;
+    }
+
+  } catch (error) {
+    console.error("Error updating user rating:", error.message);
+    return ;
+  }
+};
+
 export const fetchUserDetails = async () => {
   try {
     // Step 1: Fetch the authenticated user
@@ -600,7 +662,8 @@ export const fetchDonatedHistory = async () => {
           foodphoto_url
         )
       `)
-      .or(`donoremail.eq.${user.email},recipientemail.eq.${user.email}`);
+      .or(`donoremail.eq.${user.email},recipientemail.eq.${user.email}`)
+      .order('receiptdate', { ascending: false }); // Sort by 'created_at' descending
 
     if (donationError) throw donationError;
 
@@ -649,12 +712,13 @@ export const fetchRequestHistory = async () => {
           requestdescription
         )
       `)
-      .or(`donoremail.eq.${user.email},recipientemail.eq.${user.email}`);
+      .or(`donoremail.eq.${user.email},recipientemail.eq.${user.email}`)
+      .order('receiptdate', { ascending: false }); // Sort by 'created_at' descending
 
     if (requestHistoryError) throw requestHistoryError;
 
     if (!requestHistory || requestHistory.length === 0) {
-      console.log("No request history found for the user.");
+      // console.log("No request history found for the user.");
       return [];
     }
 
@@ -689,8 +753,8 @@ export const updateDonorFeedback = async (id, email, feedback, rating) => {
 
     if (feedbackDonorError) throw feedbackDonorError;
 
-    console.log("Feedback updated successfully:", id, email, feedback, rating);
-    return feedbackDonor; // Optionally return the updated data
+    // console.log("Feedback updated successfully:", id, email, feedback, rating);
+    // return feedbackDonor; // Optionally return the updated data
   } catch (error) {
     console.error("Error updating donor feedback:", error.message);
     return []; // Return an empty array in case of error
@@ -713,7 +777,7 @@ export const updateRecipientFeedback = async (id, email, feedback, rating) => {
 
     if (feedbackRecipientError) throw feedbackRecipientError;
 
-    console.log("Feedback updated successfully:", id, email, feedback, rating);
+    // console.log("Feedback updated successfully:", id, email, feedback, rating);
     return feedbackRecipient; // Optionally return the updated data
   } catch (error) {
     console.error("Error updating recipient feedback:", error.message);
