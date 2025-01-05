@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, Switch, SafeAreaView, Linking } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native'; 
-import { fetchUserDetails } from '../supabaseAPI/api';
+import { fetchUserDetails, fetchUserRating } from '../supabaseAPI/api';
 import icons from '../../constants/icons';
 import { supabase } from '../../services/supabase';
 
@@ -10,17 +10,20 @@ const ProfileScreen = ({ navigation }) => {
     name: "",
     email: "",
     profileImage: "",
+    rating: 0,
   });
 
   // Fetch user data when the screen is focused
   const fetchUserData = async () => {
     try {
       const userData = await fetchUserDetails();
+      const userRating = await fetchUserRating(userData.email);
       // console.log(userData);
       setUser({
         name: `${userData.firstname} ${userData.lastname}`,
         email: userData.email,
         profileImage: userData.photo_url || "", // Ensure photo_url is valid or empty
+        rating: userRating,
       });
     } catch (error) {
       // console.error("Failed to fetch user data:", error.message);
@@ -73,10 +76,18 @@ const ProfileScreen = ({ navigation }) => {
           </Text>
           <Text className="text-pregular text-gray-500">{user.email}</Text>
 
+          <Text>
+            <Image
+              source={icons.star}
+              className="w-6 h-6"
+              resizeMode="cover"
+            />
+            {user.rating !== 0 ? <Text className='font-pbold text-gray-600'>{user.rating}</Text> : 'No Rating Yet'} 
+          </Text>
           {/* Edit Profile Button */}
           <TouchableOpacity
             onPress={() => navigation.navigate('EditProfile')}
-            className="mt-4 bg-black px-6 py-2 rounded-full"
+            className="mt-2 bg-black px-6 py-2 rounded-full"
           >
             <Text className="text-white font-psemibold">Edit Profile</Text>
           </TouchableOpacity>
