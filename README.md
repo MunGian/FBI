@@ -67,11 +67,12 @@ Follow these steps to install and run WasteNot locally:
 3. Browse active donations and requests and contact donors or recipients directly.
 4. Participate in community events and read articles promoting sustainability.
 
-## Creadit
-- Soo Mun Gian
-- Marcus Tan Tung Chean
-- Ng Zi Jian
-- Tan Kit Seng
+## Credit 👥
+- Soo Mun Gian  
+- Marcus Tan Tung Chean  
+- Ng Zi Jian  
+- Tan Kit Seng  
 
-## Bugs and Issues
-If you find any bugs or issues, please report it to the [issue tracker](https://github.com/MunGian/FBI/issues)
+## Bugs and Issues  
+If you find any bugs or issues, please report them to the [issue tracker](https://github.com/MunGian/FBI/issues).  
+
