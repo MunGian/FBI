@@ -68,7 +68,8 @@ const EditFoodScreen = ({ route, navigation }) => {
     });
   
     try {
-      const response = await fetch('http://10.0.2.2:5000/check-food', {
+      // const response = await fetch('http://10.213.7.130:5000/check-food', {
+      const response = await fetch('http://10.0.2.2:5000/check-food', { // For Android Emulator
         method: 'POST',
         body: formData,
       });

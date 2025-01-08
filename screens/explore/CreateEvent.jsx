@@ -103,7 +103,7 @@ const handleSubmit = async () => {
           <Text className="text-2xl text-white font-pbold mb-2">Post New event</Text>
           
           <FormCustom
-            title="event Title"
+            title="Event Title"
             handleChangeText={setEventTitle}
             otherStyles="mt-3.5"
             placeholder="Enter your event title"
@@ -133,14 +133,14 @@ const handleSubmit = async () => {
           )}
 
          <FormCustom
-            title="event Link (URL)"
+            title="Event Link (URL)"
             handleChangeText={setEventUrl}
             otherStyles="mt-3.5"
             placeholder="Enter the event link (URL)"
             value={eventUrl}
           />
         
-          <Text className="text-base text-white font-pmedium mt-4">event Thumbnail:</Text>
+          <Text className="text-base text-white font-pmedium mt-4">Event Thumbnail:</Text>
           <TouchableOpacity
             onPress={selectImage}
             className="mt-2 p-3 bg-white rounded-lg flex-row items-center"
@@ -155,7 +155,7 @@ const handleSubmit = async () => {
           )}
 
           <FormCustom
-            title="event Description"
+            title="Event Description"
             handleChangeText={setEventDescription}
             otherStyles="mt-3.5"
             placeholder="Enter the event description"
