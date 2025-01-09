@@ -1,79 +1,78 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# WasteNot 🌱
 
-# Getting Started
+WasteNot is a food waste reduction application designed for individuals to donate surplus food, browse available food items, and participate in community events and articles promoting sustainability. WasteNot connects donors and recipients to give leftover food a new purpose.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Features 🚀
 
-## Step 1: Start the Metro Server
+- **User Management**: Register, log in, and manage user profiles.
+- **Food Donations**: Post, edit, and delete food donation listings.
+- **Food Requests**: Submit, edit, and manage requests for surplus food.
+- **Browse and Search**: Search and filter food donations and requests based on keywords or criteria.
+- **AI-Powered Image Verification**: Validate uploaded food images to ensure quality.
+- **Feedback & Ratings**: Provide feedback and view user ratings.
+- **Articles & Events**: Create, manage, and browse articles and events related to food sustainability.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Technologies Used 🛠️
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- **Frontend**: React Native for a cross-platform mobile application.
+- **Backend**: FastAPI for handling API requests.
+- **Database**: Supabase for authentication and data management.
+- **AI Integration**: TensorFlow model for food image verification.
 
-```bash
-# using npm
-npm start
+## Screenshots 📸
 
-# OR using Yarn
-yarn start
-```
+Here are some visuals of the WasteNot application to give you an overview of its interface and features:
 
-## Step 2: Start your Application
+![wasten1-removebg-preview](https://github.com/user-attachments/assets/49f3e398-c8fe-46b2-bbdf-11a3099f84b4)
+![wastn2-removebg-preview](https://github.com/user-attachments/assets/928bfc11-a169-4873-80a7-57f831bbe288)
+![wasten3-removebg-preview](https://github.com/user-attachments/assets/975a1da9-6ae7-4ccd-ac7a-dbb0bccdc464)
+![wasten4-removebg-preview](https://github.com/user-attachments/assets/924f4b26-c799-444e-8289-a9781ba2ffe9)
+![wasten5-removebg-preview](https://github.com/user-attachments/assets/14432583-512a-4804-b433-5e637825852c)
+![wasten6-removebg-preview](https://github.com/user-attachments/assets/fe24add5-a20b-4b8c-b062-db3fccbdc41b)
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Installation 📥
 
-### For Android
+Follow these steps to install and run WasteNot locally:
 
-```bash
-# using npm
-npm run android
+### Prerequisites
+- Node.js and npm
+- Python 3.x
+- FastAPI and related dependencies
+- Android Studio (for Android emulation)
+- A physical Android device or emulator
 
-# OR using Yarn
-yarn android
-```
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/MunGian/FBI.git
 
-### For iOS
+2. **Install dependencies**
+   ```bash
+   npm install
 
-```bash
-# using npm
-npm run ios
+3. **Start the FastAPI server**
+   ```bash
+   cd services
+   python model.py
 
-# OR using Yarn
-yarn ios
-```
+4. **Run the application**
+   ```bash
+   cd android
+   npx react-native run-android
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Usage 🎉
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+1. Register for a new account and log in.
+2. Post food donations or submit food requests.
+3. Browse active donations and requests and contact donors or recipients directly.
+4. Participate in community events and read articles promoting sustainability.
 
-## Step 3: Modifying your App
+## Credit 👥
+- Soo Mun Gian  
+- Marcus Tan Tung Chean  
+- Ng Zi Jian  
+- Tan Kit Seng  
 
-Now that you have successfully run the app, let's modify it.
+## Bugs and Issues  
+If you find any bugs or issues, please report them to the [issue tracker](https://github.com/MunGian/FBI/issues).  
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
