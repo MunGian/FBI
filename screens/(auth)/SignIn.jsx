@@ -5,6 +5,7 @@ import images from '../../constants/images';
 import FormCustom from '../../components/FormCustom';
 import ButtonCustom from '../../components/ButtonCustom';
 import { supabase } from '../../services/supabase';
+import Animated, { BounceInDown, BounceOut, FadeInLeft, FadeOut, FadeInRight, useSharedValue, withTiming, useAnimatedKeyboard, useAnimatedStyle} from 'react-native-reanimated';
 
 const SignIn = ({ navigation }) => {
   const [form, setForm] = React.useState({
@@ -12,6 +13,18 @@ const SignIn = ({ navigation }) => {
     password: '',
   });
   const [submitting, setSubmitting] = React.useState(false);
+
+  const whitepart = useSharedValue(0);
+
+  useEffect(() => {
+    whitepart.value = withTiming(615, { duration: 500 }); // Animate to 100px height
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: whitepart.value,
+    };
+  });
 
   // useEffect(() => {
   //   const checkSession = async () => {
@@ -54,45 +67,65 @@ const SignIn = ({ navigation }) => {
 
   return (
     <SafeAreaView className="bg-[#50C878] h-full">
+      {/* <Animated.View
+        className="absolute bottom-0 left-0 right-0 h-[600px] bg-white rounded-t-[30px] shadow-2xl shadow-black"
+        style={animatedStyle}
+      /> */}
+
       <ScrollView>
-        <View className="justify-center w-full min-h-[90vh] px-4 my-6">
+        <View className="justify-center w-full min-h-[95vh] px-4 my-2">
+          {/* Vine Image */}
+          <View className="absolute right-0 top-0"> 
+            <Animated.Image
+              entering={FadeInRight.delay(300).springify()}
+              source={images.vine}
+              resizeMode="contain"
+              className="w-[350px] h-[180px]"
+            />
+          </View>
+          
           <View className="flex-row items-center">
-            <Image
+            <Animated.Image entering={FadeInRight.springify()}
               source={images.logo}
               resizeMode="contain"
-              className="w-[300px] h-[170px] -ml-5 -mb-4"
+              className="w-[300px] h-[170px] -ml-5 -mb-4" 
             />
             {/* <Text className="text-3xl font-pblack">WasteNot</Text> */}
           </View>
-
-          <Text className="text-2xl text-white font-psemibold">
+          
+          <Text className="text-2xl text-black font-psemibold ml-2">
             Log in to <Text className="text-[#1B627D] font-pbold">WasteNot</Text>
           </Text>
 
-          <FormCustom
-            title="Email"
-            value={form.email}
-            handleChangeText={(text) => setForm({ ...form, email: text })}
-            otherStyles="mt-6"
-            keyboardType="email-address"
-            placeholder="Enter your email address"
-          />
+          <View className='mb-2 ml-2'>
+            <FormCustom
+              title="Email"
+              value={form.email}
+              handleChangeText={(text) => setForm({ ...form, email: text })}
+              otherStyles="mt-5"
+              keyboardType="email-address"
+              placeholder="Enter your email address"
+              titleStyle={{ color: 'black' }}
+            />
 
-          <FormCustom
-            title="Password"
-            value={form.password}
-            handleChangeText={(text) => setForm({ ...form, password: text })}
-            otherStyles="mt-5"
-            placeholder="Enter your password"
-            secureTextEntry={true}
-          />
+            <FormCustom
+              title="Password"
+              value={form.password}
+              handleChangeText={(text) => setForm({ ...form, password: text })}
+              otherStyles="mt-5"
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              titleStyle={{ color: 'black' }}
+            />
 
-          <ButtonCustom
-            title={submitting ? "Logging in..." : "Sign In"}
-            handlePress={LogIn}
-            containerStyles="mt-7"
-            isLoading={submitting}
-          />
+            <ButtonCustom
+              title={submitting ? "Logging in..." : "Sign In"}
+              handlePress={LogIn}
+              containerStyles="mt-7"
+              isLoading={submitting}
+            />
+            </View>
+          
 
           <Text
             onPress={() => navigation.navigate('ResetPassword')}

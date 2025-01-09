@@ -7,7 +7,7 @@ const FormCustom = (props) => {
 
   return (
     <View className= {`space-y-2 ${props.otherStyles}`}>
-        <Text className="text-base text-white font-pmedium">
+        <Text className="text-base text-white font-psemibold" style={props.titleStyle}>
             {props.title}
         </Text>
         

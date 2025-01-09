@@ -3,6 +3,7 @@ import logo from "../assets/images/logo.png";
 import logoSmall from "../assets/images/logoSmall.png";
 import empty from "../assets/images/empty.png";
 import indexPic from "../assets/images/indexPic.png";
+import vine from "../assets/images/vine.png"
 
 export default { 
     indexPic, //used
@@ -10,4 +11,5 @@ export default {
     profile, 
     logoSmall, 
     empty,
+    vine, //used
 };
